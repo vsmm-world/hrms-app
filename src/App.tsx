@@ -1,15 +1,13 @@
-import { useState } from "react";
-
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
-import Main from "./components/Main";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import About from "./components/About/About";
 import Contact from "./components/Contact/Contact";
 import Login from "./components/Login/Login";
+import Home from "./components/Home/Home";
+import Register from "./components/Register/Register";
 
 function App() {
-  const [count, setCount] = useState(0);
 
   const router = createBrowserRouter([
     {
@@ -17,7 +15,7 @@ function App() {
       element: (
         <>
           <Navbar />
-          <Main />
+          <Home />
           <Footer />
         </>
       ),
@@ -47,11 +45,21 @@ function App() {
       element: (
         <>
           <Navbar />
-          <Login/>
+          <Login />
           <Footer />
         </>
       ),
     },
+    {
+      path: "/register",
+      element: (
+        <>
+          <Navbar />
+          <Register />
+          <Footer />
+        </>
+      ),
+    }
   ]);
   return (
     <>

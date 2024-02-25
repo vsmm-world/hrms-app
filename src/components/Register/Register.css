@@ -1,0 +1,34 @@
+/* UserRegistrationForm.css */
+
+.user-registration-container {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  .user-registration-form {
+    margin-top: 20px;
+  }
+  
+  .user-registration-form label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .user-registration-form input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+  }
+  
+  .user-registration-form button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .user-registration-form button:hover {
+    background-color: #0056b3;
+  }
+  
