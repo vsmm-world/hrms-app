@@ -6,9 +6,9 @@ import Contact from "./components/Contact/Contact";
 import Login from "./components/Login/Login";
 import Home from "./components/Home/Home";
 import Register from "./components/Register/Register";
+import UserDashboard from "./components/UserDashboard/UserDashboard";
 
 function App() {
-
   const router = createBrowserRouter([
     {
       path: "/",
@@ -59,7 +59,17 @@ function App() {
           <Footer />
         </>
       ),
-    }
+    },
+    {
+      path: "/user-dashboard",
+      element: (
+        <>
+          <Navbar />
+<UserDashboard/>
+          <Footer />
+        </>
+      ),
+    },
   ]);
   return (
     <>

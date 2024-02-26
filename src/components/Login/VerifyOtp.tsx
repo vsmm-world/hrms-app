@@ -1,4 +1,4 @@
-import  { useState } from "react";
+import { useState } from "react";
 import "./VerifyOtp.css";
 
 function VerifyOtp(props: any) {
@@ -17,13 +17,13 @@ function VerifyOtp(props: any) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(userData),
       });
-      console.log(userData)
+      console.log(userData);
       const data = await response.json();
       if (response.ok) {
         console.log("OTP verified successfully", data);
         setError("");
-
         document.cookie = `token=${data.token}`;
+        window.location.href = "/user-dashboard";
       } else {
         console.log("Failed to verify OTP", response.statusText);
         setError("Invalid OTP! Please try again.");
