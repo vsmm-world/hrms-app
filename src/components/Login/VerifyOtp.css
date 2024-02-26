@@ -1,0 +1,34 @@
+/* VerifyOTP.css */
+
+.verify-otp-container {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  .verify-otp-form {
+    margin-top: 20px;
+  }
+  
+  .verify-otp-form label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .verify-otp-form input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+  }
+  
+  .verify-otp-form button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .verify-otp-form button:hover {
+    background-color: #0056b3;
+  }
+  
