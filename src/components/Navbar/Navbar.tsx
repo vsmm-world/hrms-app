@@ -10,13 +10,24 @@ function Navbar() {
     isDeleted: false,
     roleId: "",
   } as any);
-  const [error, setError] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     setUser({});
     setIsLoggedIn(false);
-    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+    const paylod = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${document.cookie.split("=")[1]}`,
+      },
+    };
+    try {
+      await fetch("http://localhost:3000/auth/logout", paylod);
+      document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+    } catch (error) {
+      console.log("Failed to logout", error);
+    }
   };
 
   useEffect(() => {

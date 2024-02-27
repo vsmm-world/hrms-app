@@ -7,6 +7,7 @@ import Login from "./components/Login/Login";
 import Home from "./components/Home/Home";
 import Register from "./components/Register/Register";
 import UserDashboard from "./components/UserDashboard/UserDashboard";
+import AdminDashboard from "./components/AdminDashboard/AdminDashboard";
 
 function App() {
   const router = createBrowserRouter([
@@ -65,7 +66,17 @@ function App() {
       element: (
         <>
           <Navbar />
-<UserDashboard/>
+          <UserDashboard />
+          <Footer />
+        </>
+      ),
+    },
+    {
+      path: "/admin-dashboard",
+      element: (
+        <>
+          <Navbar />
+          <AdminDashboard />
           <Footer />
         </>
       ),
