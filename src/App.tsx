@@ -8,6 +8,7 @@ import Home from "./components/Home/Home";
 import Register from "./components/Register/Register";
 import UserDashboard from "./components/UserDashboard/UserDashboard";
 import AdminDashboard from "./components/AdminDashboard/AdminDashboard";
+import EmployeeDashboard from "./components/EmployeeDashboard/EmployeeDashboard";
 
 function App() {
   const router = createBrowserRouter([
@@ -77,6 +78,16 @@ function App() {
         <>
           <Navbar />
           <AdminDashboard />
+          <Footer />
+        </>
+      ),
+    },
+    {
+      path: "/employee-dashboard",
+      element: (
+        <>
+          <Navbar />
+          <EmployeeDashboard />
           <Footer />
         </>
       ),

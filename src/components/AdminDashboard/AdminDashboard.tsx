@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import AccessDenied from "../../shared/components/AccessDenied";
+import AdminSideBar from "./AdminSideBar";
+import ViewEmployees from "./ViewEmployees";
 
 function AdminDashboard() {
   const [user, setUser] = useState({
@@ -42,20 +44,25 @@ function AdminDashboard() {
 
   return (
     <>
-      {!isLoggedIn && <AccessDenied />}
-      {!isAdmin && <AccessDenied />}
-      <div className="adminContainer">
-        <h2>Admin Dashboard</h2>
-        <div className="adminDetails">
-          <h3>Admin Details</h3>
-          <p>
-            <strong>Name:</strong> {user.name}
-          </p>
-          <p>
-            <strong>Email:</strong> {user.email}
-          </p>
-        </div>
-      </div>
+      {/* {!isLoggedIn && <AccessDenied />}
+      {!isAdmin && <AccessDenied />} */}
+      {isAdmin && (
+        <>
+          <ViewEmployees />
+          <div className="adminContainer">
+            <h2>Admin Dashboard</h2>
+            <div className="adminDetails">
+              <h3>Admin Details</h3>
+              <p>
+                <strong>Name:</strong> {user.name}
+              </p>
+              <p>
+                <strong>Email:</strong> {user.email}
+              </p>
+            </div>
+          </div>
+        </>
+      )}
     </>
   );
 }
