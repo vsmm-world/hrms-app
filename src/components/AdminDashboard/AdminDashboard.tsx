@@ -3,7 +3,8 @@ import AccessDenied from "../../shared/components/AccessDenied";
 import AdminSideBar from "./AdminSideBar";
 import ViewEmployees from "./ViewEmployees";
 import LeaveApproval from "./ActionToLeave";
-
+import "./AdminDashboard.css";
+import AddEmployee from "./AddEmployee";
 function AdminDashboard() {
   const [user, setUser] = useState({
     id: "",
@@ -45,12 +46,13 @@ function AdminDashboard() {
 
   return (
     <>
-      {/* {!isLoggedIn && <AccessDenied />}
-      {!isAdmin && <AccessDenied />} */}
+      {!isLoggedIn && <AccessDenied />}
+      {!isAdmin && <AccessDenied />}
       {isAdmin && (
         <>
           {/* <ViewEmployees /> */}
-          <LeaveApproval />
+          {/* <LeaveApproval /> */}
+          {/* <AddEmployee /> */}
           <div className="adminContainer">
             <h2>Admin Dashboard</h2>
             <div className="adminDetails">

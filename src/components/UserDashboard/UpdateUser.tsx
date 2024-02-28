@@ -1,24 +1,55 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-function UpdateUser() {
+function UpdateUser(props: any) {
   const [newName, setNewName] = useState("");
   const [newEmail, setNewEmail] = useState("");
+  const [user, setUser] = useState({} as any);
+  const [Udata, setUData] = useState({} as any);
+
+  useEffect(() => {
+    setUser(props.user);
+    setUData({
+      name: props.user.name,
+      email: props.user.email,
+    });
+  }, []);
+
+  const updateUser = async (x: any) => {
+    try {
+      console.log(props.user);
+      const response = await fetch(`http://localhost:3000/user/${user.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${document.cookie.split("=")[1]}`,
+        },
+        body: x,
+      });
+      const data = await response.json();
+      console.log("Data", data);
+      if (response.ok) {
+        console.log("User updated", data);
+      }
+    } catch (error) {
+      console.log("Failed to update user", error);
+    }
+  };
   const handleSubmit = (e: any) => {
     e.preventDefault();
     if (newName.trim() !== "") {
-      // Update user name
-      console.log(`Updated name: ${newName}`);
+      const x = JSON.stringify({ name: newName, email: user.email });
+      updateUser(x);
+      return;
     } else {
       console.log("Name field is empty");
     }
     if (newEmail.trim() !== "") {
-      // Update user email
-      console.log(`Updated email: ${newEmail}`);
+      const x = JSON.stringify({ email: newEmail, name: user.name });
+      updateUser(x);
+      return;
     } else {
       console.log("Email field is empty");
     }
-    setNewName("");
-    setNewEmail("");
   };
 
   const handleNameChange = (e: any) => {

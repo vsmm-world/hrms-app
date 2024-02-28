@@ -1,8 +1,10 @@
-
 function Home() {
   return (
-    <div>Home</div>
-  )
+    <div>
+      {" "}
+      Keka ?? what Keka , use this HRMS Portal , thank me later buddy !
+    </div>
+  );
 }
 
-export default Home
+export default Home;

@@ -47,7 +47,7 @@ function UserDashboard() {
           </p>
         </div>
         <button onClick={() => setUpdate(!update)}>Update User</button>
-        {update && <UpdateUser />}
+        {update && <UpdateUser user={user} />}
       </div>
     </>
   );
