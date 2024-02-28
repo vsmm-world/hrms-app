@@ -1,0 +1,23 @@
+.check-in-out {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.check-in-button,
+.check-out-button {
+    padding: 10px 20px;
+    margin: 0 10px;
+    border: 2px solid #333;
+    border-radius: 5px;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.check-in-button.checked,
+.check-out-button.checked {
+    background-color: #4caf50;
+    /* Change color for checked state */
+    color: #fff;
+    /* Change text color for checked state */
+}

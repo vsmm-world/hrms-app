@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import AccessDenied from "../../shared/components/AccessDenied";
 import AdminSideBar from "./AdminSideBar";
 import ViewEmployees from "./ViewEmployees";
+import LeaveApproval from "./ActionToLeave";
 
 function AdminDashboard() {
   const [user, setUser] = useState({
@@ -48,7 +49,8 @@ function AdminDashboard() {
       {!isAdmin && <AccessDenied />} */}
       {isAdmin && (
         <>
-          <ViewEmployees />
+          {/* <ViewEmployees /> */}
+          <LeaveApproval />
           <div className="adminContainer">
             <h2>Admin Dashboard</h2>
             <div className="adminDetails">

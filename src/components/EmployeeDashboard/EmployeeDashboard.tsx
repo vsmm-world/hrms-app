@@ -1,7 +1,11 @@
+import AttendanceRecord from "./AttendanceRecord";
+import CheckInOut from "./CheckInOut";
+import LeaveRequest from "./LeaveRequest";
+
 function EmployeeDashboard() {
   return (
     <>
-      <h1>Employee Dashboard</h1>
+  <AttendanceRecord/>
     </>
   );
 }
