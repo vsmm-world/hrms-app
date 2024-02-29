@@ -1,22 +1,58 @@
 import { useState } from "react";
 import "./LeaveRequest.css"; // Import component CSS
 
+const LeaveTypes = {
+  ANNUAL: "Annual Leave",
+  SICK: "Sick Leave",
+  MATERNITY: "Maternity Leave",
+  PATERNITY: "Paternity Leave",
+  UNPAID: "Unpaid Leave",
+} as any;
+
 function LeaveRequest() {
   const [leaveType, setLeaveType] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [reason, setReason] = useState("");
 
-  const handleLeaveSubmit = () => {
-    // Here you can handle the submission of leave request,
-    // you can send the data to your backend or handle it as per your requirement.
+  const handleLeaveSubmit = (e: any) => {
+    e.preventDefault();
+
+    const payload = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${document.cookie.split("=")[1]}`,
+      },
+      body: JSON.stringify({
+        startDate,
+        endDate,
+        reason,
+        alsoNotify: ["vsmmworld@gmail.com"],
+      }),
+    };
+
+    try {
+      fetch(`http://localhost:3000/leave?type=${leaveType}`, payload)
+        .then((response) => {
+          if (response.ok) {
+            console.log("Leave Request Submitted");
+          } else {
+            console.log("Leave Request Failed");
+          }
+        })
+        .catch((error) => {
+          console.log("Error submitting leave request", error);
+        });
+    } catch (error) {
+      console.log("Error submitting leave request", error);
+    }
     console.log("Leave Request Submitted:", {
       leaveType,
       startDate,
       endDate,
       reason,
     });
-    // You can also reset the form fields after submission if needed
     setLeaveType("");
     setStartDate("");
     setEndDate("");
@@ -29,12 +65,18 @@ function LeaveRequest() {
       <form onSubmit={handleLeaveSubmit}>
         <div className="form-group">
           <label htmlFor="leaveType">Leave Type:</label>
-          <input
-            type="text"
+          <select
             id="leaveType"
             value={leaveType}
             onChange={(e) => setLeaveType(e.target.value)}
-          />
+          >
+            <option value="">Select Leave Type</option>
+            {Object.keys(LeaveTypes).map((key) => (
+              <option key={key} value={key}>
+                {LeaveTypes[key]}
+              </option>
+            ))}
+          </select>
         </div>
         <div className="form-group">
           <label htmlFor="startDate">Start Date:</label>

@@ -44,6 +44,7 @@ function Navbar() {
         const data = await response.json();
         if (response.ok) {
           const dt = await data.user;
+          sessionStorage.setItem("user", JSON.stringify(dt));
           setUser(dt);
           setIsLoggedIn(true);
         }

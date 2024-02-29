@@ -1,0 +1,64 @@
+/* write css for related component */
+.leave-requests {
+    margin-top: 20px;
+}
+
+.leave-requests h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.leave-requests table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.leave-requests th,
+.leave-requests td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ccc;
+}
+
+.leave-requests th {
+    font-weight: bold;
+}
+
+.leave-requests tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.leave-requests input[type="date"],
+.leave-requests input[type="text"],
+.leave-requests button {
+    padding: 6px 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #f2f2f2;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.leave-requests button {
+    margin-right: 5px;
+}
+
+.leave-requests button:hover {
+    background-color: #ddd;
+}
+
+.leave-requests .save-button {
+    background-color: #4caf50;
+    color: white;
+}
+
+.leave-requests .edit-button {
+    background-color: #2196f3;
+    color: white;
+}
+
+.leave-requests .remove-button {
+    background-color: #f44336;
+    color: white;
+}

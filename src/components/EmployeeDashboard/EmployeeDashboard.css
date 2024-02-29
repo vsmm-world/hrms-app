@@ -1,0 +1,20 @@
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    background-color: #f2f2f2;
+    padding: 10px;
+    align-items: flex-start; /* Updated property */
+}
+
+.sidebar-button {
+    background-color: #e0e0e0;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.content {
+    margin-left: 20px;
+}

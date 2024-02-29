@@ -5,16 +5,51 @@ function CheckInOut() {
   const [isCheckedIn, setIsCheckedIn] = useState(false);
   const [isCheckedOut, setIsCheckedOut] = useState(false);
 
-  const handleCheckIn = () => {
-    setIsCheckedIn(true);
-    setIsCheckedOut(false);
-    // Add your logic for Check-in action here
+  const handleCheckIn = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/attendance/checkIn", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${document.cookie.split("=")[1]}`,
+        },
+      });
+
+      if (response.ok) {
+        console.log("Check-in successful");
+        setIsCheckedIn(true);
+        setIsCheckedOut(false);
+      } else {
+        console.log("Check-in failed");
+      }
+    } catch (error) {
+      console.log("Error checking in", error);
+    }
   };
 
-  const handleCheckOut = () => {
-    setIsCheckedOut(true);
-    setIsCheckedIn(false);
-    // Add your logic for Check-out action here
+  const handleCheckOut = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:3000/attendance/checkOut",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${document.cookie.split("=")[1]}`,
+          },
+        }
+      );
+
+      if (response.ok) {
+        console.log("Check-out successful");
+        setIsCheckedOut(true);
+        setIsCheckedIn(false);
+      } else {
+        console.log("Check-out failed");
+      }
+    } catch (error) {
+      console.log("Error checking out", error);
+    }
   };
 
   return (
