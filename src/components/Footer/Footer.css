@@ -1,25 +1,30 @@
 /* Footer.css */
 
 .footer {
-    background-color: #333;
-    color: #fff;
-    padding: 20px 0;
-    text-align: center;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-  }
-  
-  .footer p {
-    margin: 0;
-  }
-  
-  .footer a {
-    color: #fff;
-    text-decoration: none;
-  }
-  
-  .footer a:hover {
-    text-decoration: underline;
-  }
-  
+  background-color: #333;
+  color: #fff;
+  padding: 20px 0;
+  text-align: center;
+  position: fixed;
+  /* Changed from 'absolute' to 'fixed' */
+  bottom: 0;
+  width: 100%;
+}
+
+.footer p {
+  margin: 0;
+}
+
+.footer a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+.footer__text {
+  font-size: 14px;
+  margin-bottom: 10px;
+}

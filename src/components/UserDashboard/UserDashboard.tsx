@@ -46,7 +46,7 @@ function UserDashboard() {
             <strong>Email:</strong> {user.email}
           </p>
         </div>
-        <button onClick={() => setUpdate(!update)}>Update User</button>
+        <button className="update-button" onClick={() => setUpdate(!update)}>Update User</button>
         {update && <UpdateUser user={user} />}
       </div>
     </>

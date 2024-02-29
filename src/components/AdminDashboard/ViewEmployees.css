@@ -1,0 +1,62 @@
+.employees {
+    margin-top: 20px;
+}
+
+.employees h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.employees-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.employees-table th,
+.employees-table td {
+    padding: 10px;
+    text-align: left;
+}
+
+.employees-table thead {
+    background-color: #f2f2f2;
+}
+
+.employees-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.employees-table .input-field {
+    width: 100%;
+    padding: 5px;
+}
+
+.employees-table .save-button,
+.employees-table .edit-button {
+    padding: 5px 10px;
+    margin-right: 5px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.employees-table .remove-button {
+    padding: 5px 10px;
+    margin-right: 5px;
+    background-color: #ff0000;
+    /* Reddish color */
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.employees-table .save-button:hover,
+.employees-table .edit-button:hover {
+    background-color: #45a049;
+}
+
+.employees-table .remove-button:hover {
+    background-color: #ff3333;
+    /* Darker reddish color on hover */
+}

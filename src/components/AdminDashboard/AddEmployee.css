@@ -1,0 +1,39 @@
+.add-employee-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.add-employee-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.add-employee-label {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.add-employee-select,
+.add-employee-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.add-employee-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.add-employee-button:hover {
+    background-color: #0056b3;
+}

@@ -1,41 +1,72 @@
 /* Navbar.css */
 
 .navcontainer {
-    background-color: #333;
-    padding: 10px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .navcontainer a {
-    color: white;
-    text-decoration: none;
-    margin-right: 20px;
-  }
-  
-  .navcontainer a:hover {
-    text-decoration: underline;
-  }
-  
-  .navcontainer .right {
-    display: flex;
-    align-items: center;
-  }
-  
-  .navcontainer .right a {
-    margin-right: 10px;
-  }
-  
-  .navcontainer .right button {
-    padding: 8px 16px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .navcontainer .right button:hover {
-    background-color: #0056b3;
-  }
-  
+  background-color: #333;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navcontainer a {
+  color: white;
+  text-decoration: none;
+  margin-right: 20px;
+}
+
+.navcontainer a:hover {
+  text-decoration: underline;
+}
+
+.navcontainer .right {
+  display: flex;
+  align-items: center;
+}
+
+.navcontainer .right a {
+  margin-right: 10px;
+}
+
+.navcontainer .right button {
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.navcontainer .right button:hover {
+  background-color: #0056b3;
+}
+
+.navbar__left {
+  display: flex;
+  align-items: center;
+}
+
+.navbar__link {
+  color: white;
+  text-decoration: none;
+  margin-right: 20px;
+}
+
+.navbar__link:hover {
+  text-decoration: underline;
+}
+
+.navbar__right {
+  display: flex;
+  align-items: center;
+}
+
+.navbar__logout {
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.navbar__logout:hover {
+  background-color: #0056b3;
+}

@@ -42,16 +42,27 @@ function Sidebar({
 
 function EmployeeDashboard() {
   const [selectedComponent, setSelectedComponent] = useState("");
+  const [showSidebar, setShowSidebar] = useState(false);
 
   const handleComponentClick = (componentName: string) => {
     setSelectedComponent(componentName);
   };
 
+  const handleToggleSidebar = () => {
+    setShowSidebar(!showSidebar);
+  };
+
   return (
     <div className="employee-dashboard">
-      <div className="sidebar">
-        <Sidebar handleComponentClick={handleComponentClick} />
+      <div className="sidebar-toggle" onClick={handleToggleSidebar}>
+        Toggle Sidebar
       </div>
+
+      {showSidebar && (
+        <div className="sidebar">
+          <Sidebar handleComponentClick={handleComponentClick} />
+        </div>
+      )}
 
       <div className="content">
         {selectedComponent === "AttendanceRecord" && <AttendanceRecord />}

@@ -46,7 +46,7 @@ function ViewLeaves() {
 
     const handleEdit = (index: number) => {
         const updatedLeaveRequests = [...editableLeaveRequests];
-        if (updatedLeaveRequests[index].status !== "Approved") {
+        if (updatedLeaveRequests[index].status !== "approved") {
             updatedLeaveRequests[index].isEditable = true;
             setEditableLeaveRequests(updatedLeaveRequests);
         }
@@ -86,7 +86,7 @@ function ViewLeaves() {
 
     const handleDelete = (index: number) => {
         const updatedLeaveRequests = [...editableLeaveRequests];
-        if (updatedLeaveRequests[index].status !== "Approved") {
+        if (updatedLeaveRequests[index].status !== "approved") {
             updatedLeaveRequests.splice(index, 1);
             setEditableLeaveRequests(updatedLeaveRequests);
         }

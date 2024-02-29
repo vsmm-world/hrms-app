@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import './UpdateUser.css'
 
 function UpdateUser(props: any) {
   const [newName, setNewName] = useState("");
@@ -61,23 +62,25 @@ function UpdateUser(props: any) {
 
   return (
     <div className="update-form">
-      <h3>Update Details</h3>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="newName">New Name:</label>
+      <h3 className="update-form__title">Update Details</h3>
+      <form className="update-form__form" onSubmit={handleSubmit}>
+        <label htmlFor="newName" className="update-form__label">New Name:</label>
         <input
           type="text"
           id="newName"
           value={newName}
           onChange={handleNameChange}
+          className="update-form__input"
         />
-        <label htmlFor="newEmail">New Email:</label>
+        <label htmlFor="newEmail" className="update-form__label">New Email:</label>
         <input
           type="email"
           id="newEmail"
           value={newEmail}
           onChange={handleEmailChange}
+          className="update-form__input"
         />
-        <button type="submit">Update</button>
+        <button type="submit" className="update-form__button">Update</button>
       </form>
     </div>
   );

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import './ActionToLeave.css';
 
 const LeaveApproval: React.FC = () => {
   const [leaveRequests, setLeaveRequests] = useState([
@@ -35,38 +36,55 @@ const LeaveApproval: React.FC = () => {
   }, []);
 
   const approveLeave = (id: string) => {
-    // setLeaveRequests((prevRequests) =>
-    //   prevRequests.map((request) =>
-    //     request.id === id ? { ...request, status: "Approved" } : request
-    //   )
-    // );
+    setLeaveRequests((prevRequests) =>
+      prevRequests.map((request) =>
+        request.id === id ? { ...request, status: "approved" } : request
+      )
+    );
   };
 
   const rejectLeave = (id: string) => {
-    // setLeaveRequests((prevRequests) =>
-    //   prevRequests.map((request) =>
-    //     request.id === id ? { ...request, status: "Rejected" } : request
-    //   )
-    // );
+    setLeaveRequests((prevRequests) =>
+      prevRequests.map((request) =>
+        request.id === id ? { ...request, status: "rejected" } : request
+      )
+    );
   };
 
   return (
-    <div>
-      <h1>Leave Approval</h1>
-      {leaveRequests.map((request) => (
-        <div key={request.id}>
-          <h3>{request.employeeName}</h3>
-          <p>Start Date: {request.startDate}</p>
-          <p>End Date: {request.endDate}</p>
-          <p>Status: {request.status}</p>
-          <p>Reason : {request.reason}</p>
-
-          <div>
-            <button onClick={() => approveLeave(request.id)}>Approve</button>
-            <button onClick={() => rejectLeave(request.id)}>Reject</button>
-          </div>
-        </div>
-      ))}
+    <div className="leave-aprroval-container">
+      <h1 className="leave-approval-title">Leave Approval</h1>
+      <table className="leave-approval-table">
+        <thead>
+          <tr>
+            <th>Employee Name</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Status</th>
+            <th>Reason</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {leaveRequests.map((request) => (
+            <tr key={request.id} className={`leave-request ${request.status === "approved" ? "approved-leave" : ""} ${request.status === "rejected" ? "rejected-leave" : ""}`}>
+              <td>{request.employeeName}</td>
+              <td>{request.startDate}</td>
+              <td>{request.endDate}</td>
+              <td>{request.status}</td>
+              <td>{request.reason}</td>
+              <td>
+                {request.status !== "approved" && request.status !== "rejected" && (
+                  <div>
+                    <button onClick={() => approveLeave(request.id)}>Approve</button>
+                    <button onClick={() => rejectLeave(request.id)}>Reject</button>
+                  </div>
+                )}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };

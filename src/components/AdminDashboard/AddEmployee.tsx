@@ -1,15 +1,23 @@
 import { useEffect, useState } from "react";
+import "./AddEmployee.css";
 
 function AddEmployee() {
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState([
+    {
+      id: "",
+      name: "",
+      isEmployee: false,
+      email: "",
+    },
+  ]);
   const [newEmployee, setNewEmployee] = useState({
-    userId: "string",
-    firstName: "string",
-    lastName: "string",
-    email: "string",
-    department: "string",
-    jobTitle: "string",
-    contactInfo: "string",
+    userId: "",
+    firstName: "",
+    lastName: "",
+    email: "",
+    department: "",
+    jobTitle: "",
+    contactInfo: "",
   } as any);
   useEffect(() => {
     async function fetchUsers() {
@@ -23,8 +31,9 @@ function AddEmployee() {
         });
         const data = await response.json();
         if (response.ok) {
-          setUsers(data);
-          console.log("Users", data);
+          const filteredUsers = data.filter((user: any) => !user.isEmployee);
+          setUsers(filteredUsers);
+          console.log("Users", filteredUsers);
         }
       } catch (error) {
         console.log("Failed to fetch users", error);
@@ -62,16 +71,26 @@ function AddEmployee() {
 
   return (
     <>
-      <div>
-        <h1>Add Employee</h1>
+      <div className="add-employee-container">
+        <h1 className="add-employee-title">Add Employee</h1>
         <form onSubmit={handelSubmit}>
-          <label htmlFor="userId">User</label>
+          <label htmlFor="userId" className="add-employee-label">User</label>
           <select
             name="userId"
             id="userId"
-            onChange={(e) =>
-              setNewEmployee({ ...newEmployee, userId: e.target.value })
-            }
+            className="add-employee-select"
+            onChange={(e) => {
+              const selectedUser = users.find(
+                (user: any) => user.id === e.target.value
+              );
+              setNewEmployee({
+                ...newEmployee,
+                userId: e.target.value,
+                firstName: selectedUser?.name.split(' ')[0] || "",
+                lastName: selectedUser?.name.split(' ')[1] || "",
+                email: selectedUser?.email || "",
+              });
+            }}
           >
             {users.map((user: any) => (
               <option key={user.id} value={user.id}>
@@ -79,61 +98,70 @@ function AddEmployee() {
               </option>
             ))}
           </select>
-          <label htmlFor="firstName">First Name</label>
+          <label htmlFor="firstName" className="add-employee-label">First Name</label>
           <input
             type="text"
             name="firstName"
             id="firstName"
+            value={newEmployee.firstName}
+            className="add-employee-input"
             onChange={(e) =>
               setNewEmployee({ ...newEmployee, firstName: e.target.value })
             }
           />
-          <label htmlFor="lastName">Last Name</label>
+          <label htmlFor="lastName" className="add-employee-label">Last Name</label>
           <input
             type="text"
             name="lastName"
             id="lastName"
+            value={newEmployee.lastName}
+            className="add-employee-input"
             onChange={(e) =>
               setNewEmployee({ ...newEmployee, lastName: e.target.value })
             }
           />
-          <label htmlFor="email">Email</label>
+          <label htmlFor="email" className="add-employee-label">Email</label>
           <input
             type="email"
             name="email"
             id="email"
+            value={newEmployee.email}
+            className="add-employee-input"
             onChange={(e) =>
               setNewEmployee({ ...newEmployee, email: e.target.value })
             }
           />
-          <label htmlFor="department">Department</label>
+          <label htmlFor="department" className="add-employee-label">Department</label>
           <input
             type="text"
             name="department"
             id="department"
+            className="add-employee-input"
             onChange={(e) =>
               setNewEmployee({ ...newEmployee, department: e.target.value })
             }
           />
-          <label htmlFor="jobTitle">Job Title</label>
+          <label htmlFor="jobTitle" className="add-employee-label">Job Title</label>
           <input
             type="text"
             name="jobTitle"
             id="jobTitle"
+            className="add-employee-input"
             onChange={(e) =>
               setNewEmployee({ ...newEmployee, jobTitle: e.target.value })
             }
           />
-          <label htmlFor="contactInfo">Contact Info</label>
+          <label htmlFor="contactInfo" className="add-employee-label">Contact Info</label>
           <input
             type="text"
             name="contactInfo"
             id="contactInfo"
+            className="add-employee-input"
             onChange={(e) =>
               setNewEmployee({ ...newEmployee, contactInfo: e.target.value })
             }
           />
-          <button type="submit">Add Employee</button>
+          <button type="submit" className="add-employee-button">Add Employee</button>
         </form>
       </div>
     </>

@@ -1,0 +1,49 @@
+.leave-approval-container {
+    margin: 20px;
+}
+
+.leave-approval-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.leave-approval-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.leave-approval-table th,
+.leave-approval-table td {
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+.leave-approval-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.leave-request.approved-leave {
+    background-color: #c8e6c9;
+}
+
+.leave-request.rejected-leave {
+    background-color: #ffcdd2;
+}
+
+.leave-request button {
+    padding: 5px 10px;
+    margin-right: 5px;
+    font-size: 14px;
+}
+
+.leave-request button:first-child {
+    background-color: #4caf50;
+    color: #fff;
+}
+
+.leave-request button:last-child {
+    background-color: #f44336;
+    color: #fff;
+}
