@@ -4,6 +4,7 @@ import "./AdminDashboard.css";
 import ViewEmployees from "./ViewEmployees";
 import AddEmployee from "./AddEmployee";
 import LeaveApproval from "./ActionToLeave";
+import ViewUsers from "./ViewUsers";
 
 function AdminDashboard() {
   const [user, setUser] = useState({
@@ -127,7 +128,7 @@ function AdminDashboard() {
               {selectedContent === "users" && (
                 <>
                   <h2 className="admin-title">Users</h2>
-                  {/* Add your users content here */}
+                  {<ViewUsers />}
                 </>
               )}
             </div>

@@ -24,11 +24,11 @@
     font-weight: bold;
 }
 
-.leave-request.approved-leave {
+.leave-request.Approved-leave {
     background-color: #c8e6c9;
 }
 
-.leave-request.rejected-leave {
+.leave-request.Rejected-leave {
     background-color: #ffcdd2;
 }
 

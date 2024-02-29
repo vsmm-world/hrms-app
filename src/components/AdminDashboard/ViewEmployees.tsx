@@ -30,7 +30,7 @@ function ViewEmployees() {
       }
     }
     fetchEmployees();
-  }, []);
+  }, [setEmployees, setEditableEmployees]);
 
   const handleEmailChange = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
     const updatedEmployees = [...editableEmployees];
@@ -47,20 +47,77 @@ function ViewEmployees() {
   const handleSave = (index: number) => {
     const updatedEmployees = [...editableEmployees];
     updatedEmployees[index].isEditable = false;
-    // Add your logic to save the updated employee data
+    const payload = {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${document.cookie.split("=")[1]}`,
+      },
+      body: JSON.stringify({
+        firstName: updatedEmployees[index].firstName,
+        lastName: updatedEmployees[index].lastName,
+        email: updatedEmployees[index].email,
+      }),
+    };
+    try {
+      async function updateEmployee() {
+        const response = await fetch(
+          `http://localhost:3000/administrator/${updatedEmployees[index].id}`,
+          payload
+        );
+        if (response.ok) {
+          console.log("Employee updated");
+        }
+      }
+      updateEmployee();
+    } catch (error) {
+      console.log("Failed to update employee", error);
+    }
+
+
+
+
     console.log("Save employee at index:", index);
     setEditableEmployees(updatedEmployees);
   };
 
   const handleRemove = (index: number) => {
     const updatedEmployees = [...editableEmployees];
-    // Add your logic to handle remove action for the employee at the given index
+    updatedEmployees.splice(index, 1);
+    setEditableEmployees(updatedEmployees);
+    const payload = {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${document.cookie.split("=")[1]}`,
+      },
+
+    };
+    try {
+      async function deleteEmployee() {
+        const response = await fetch(
+          `http://localhost:3000/administrator/${updatedEmployees[index].id}`,
+          payload
+        );
+        if (response.ok) {
+          console.log("Employee deleted");
+        }
+      }
+      deleteEmployee();
+    } catch (error) {
+      console.log("Failed to delete employee", error);
+    }
     console.log("Remove employee at index:", index);
   };
 
   const handleFirstNameChange = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
     const updatedEmployees = [...editableEmployees];
     updatedEmployees[index].firstName = event.target.value;
+    setEditableEmployees(updatedEmployees);
+  };
+  const handleJobTitleChange = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
+    const updatedEmployees = [...editableEmployees];
+    updatedEmployees[index].jobTitle = event.target.value;
     setEditableEmployees(updatedEmployees);
   };
 
@@ -79,6 +136,7 @@ function ViewEmployees() {
             <tr>
               <th className="table-header">First Name</th>
               <th className="table-header">Last Name</th>
+              <th className="table-header">Job Title</th>
               <th className="table-header">Email</th>
               <th className="table-header">Actions</th>
             </tr>
@@ -109,6 +167,18 @@ function ViewEmployees() {
                       />
                     ) : (
                       employee.lastName
+                    )}
+                  </td>
+                  <td>
+                    {employee.isEditable ? (
+                      <input
+                        type="text"
+                        value={employee.jobTitle}
+                        onChange={(event) => handleJobTitleChange(index, event)}
+                        className="input-field"
+                      />
+                    ) : (
+                      employee.jobTitle
                     )}
                   </td>
                   <td>

@@ -19,6 +19,7 @@ function AddEmployee() {
     jobTitle: "",
     contactInfo: "",
   } as any);
+
   useEffect(() => {
     async function fetchUsers() {
       try {
@@ -31,7 +32,7 @@ function AddEmployee() {
         });
         const data = await response.json();
         if (response.ok) {
-          const filteredUsers = data.filter((user: any) => !user.isEmployee);
+          const filteredUsers = data.filter((user: any) => !user.isEmployee && user.Role.name !== 'admin');
           setUsers(filteredUsers);
           console.log("Users", filteredUsers);
         }
@@ -40,11 +41,12 @@ function AddEmployee() {
       }
     }
     fetchUsers();
-  }, []);
+  }, [setNewEmployee]);
+
   const addEmployee = async (x: any) => {
     try {
       const response = await fetch(
-        "http://localhost:3000/administrator/employee",
+        "http://localhost:3000/administrator/create-employee",
         {
           method: "POST",
           headers: {
@@ -63,10 +65,21 @@ function AddEmployee() {
       console.log("Failed to add employee", error);
     }
   };
+
   const handelSubmit = (e: any) => {
     e.preventDefault();
     const x = JSON.stringify(newEmployee);
     addEmployee(x);
+    //clear the form
+    setNewEmployee({
+      userId: "",
+      firstName: "",
+      lastName: "",
+      email: "",
+      department: "",
+      jobTitle: "",
+      contactInfo: "",
+    });
   };
 
   return (

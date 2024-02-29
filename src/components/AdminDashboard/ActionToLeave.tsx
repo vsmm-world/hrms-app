@@ -5,7 +5,7 @@ const LeaveApproval: React.FC = () => {
   const [leaveRequests, setLeaveRequests] = useState([
     {
       id: "123",
-      employeeName: "string",
+      User: { name: "string" },
       startDate: "string",
       endDate: "string",
       status: "Pending",
@@ -13,15 +13,14 @@ const LeaveApproval: React.FC = () => {
     },
   ]);
 
+  const commonHeaders = { "Content-Type": "application/json", Authorization: `Bearer ${document.cookie.split("=")[1]}` };
+
   useEffect(() => {
     async function fetchLeaveRequests() {
       try {
         const response = await fetch("http://localhost:3000/leave", {
           method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${document.cookie.split("=")[1]}`,
-          },
+          headers: commonHeaders
         });
         const data = await response.json();
         if (response.ok) {
@@ -36,19 +35,55 @@ const LeaveApproval: React.FC = () => {
   }, []);
 
   const approveLeave = (id: string) => {
-    setLeaveRequests((prevRequests) =>
-      prevRequests.map((request) =>
-        request.id === id ? { ...request, status: "approved" } : request
-      )
-    );
+
+    const payload = {
+      method: "POST",
+      headers: commonHeaders,
+      body: JSON.stringify({ id: id }),
+    };
+    async function approveLeaveRequest() {
+      try {
+        const response = await fetch("http://localhost:3000/leave/approve", payload);
+        const data = await response.json();
+        console.log("response",data);
+        if (response.ok) {
+          setLeaveRequests((prevRequests) =>
+            prevRequests.map((request) =>
+              request.id === id ? { ...request, status: "Approved" } : request
+            )
+          );
+        }
+        else {
+          console.log("Failed to approve leave request", response);
+        }
+      } catch (error) {
+        console.log("Failed to approve leave request", error);
+      }
+    }
+    approveLeaveRequest();
   };
 
   const rejectLeave = (id: string) => {
-    setLeaveRequests((prevRequests) =>
-      prevRequests.map((request) =>
-        request.id === id ? { ...request, status: "rejected" } : request
-      )
-    );
+    const payload = {
+      method: "POST",
+      headers: commonHeaders,
+      body: JSON.stringify({ id: id }),
+    };
+    async function rejectLeaveRequest() {
+      try {
+        const response = await fetch("http://localhost:3000/leave/reject", payload);
+        if (response.ok) {
+          setLeaveRequests((prevRequests) =>
+            prevRequests.map((request) =>
+              request.id === id ? { ...request, status: "Rejected" } : request
+            )
+          );
+        }
+      } catch (error) {
+        console.log("Failed to reject leave request", error);
+      }
+    }
+    rejectLeaveRequest();
   };
 
   return (
@@ -67,14 +102,14 @@ const LeaveApproval: React.FC = () => {
         </thead>
         <tbody>
           {leaveRequests.map((request) => (
-            <tr key={request.id} className={`leave-request ${request.status === "approved" ? "approved-leave" : ""} ${request.status === "rejected" ? "rejected-leave" : ""}`}>
-              <td>{request.employeeName}</td>
+            <tr key={request.id} className={`leave-request ${request.status === "Approved" ? "Approved-leave" : ""} ${request.status === "Rejected" ? "Rejected-leave" : ""}`}>
+              <td>{request.User.name}</td>
               <td>{request.startDate}</td>
               <td>{request.endDate}</td>
               <td>{request.status}</td>
               <td>{request.reason}</td>
               <td>
-                {request.status !== "approved" && request.status !== "rejected" && (
+                {request.status !== "Approved" && request.status !== "Rejected" && (
                   <div>
                     <button onClick={() => approveLeave(request.id)}>Approve</button>
                     <button onClick={() => rejectLeave(request.id)}>Reject</button>
