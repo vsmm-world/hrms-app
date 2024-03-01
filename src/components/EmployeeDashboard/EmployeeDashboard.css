@@ -1,13 +1,14 @@
 .employee-dashboard {
     display: flex;
     flex-direction: row;
-    background-color: #f2f2f2;
-    padding: 10px;
+    background-color: #f8f9fa;
+    padding: 20px;
     align-items: flex-start;
 }
 
 .sidebar-toggle {
-    background-color: #e0e0e0;
+    background-color: #343a40;
+    color: #fff;
     border: none;
     border-radius: 5px;
     padding: 10px;
@@ -18,11 +19,56 @@
 .sidebar {
     display: flex;
     flex-direction: column;
-    background-color: #f2f2f2;
-    padding: 10px;
+    background-color: #343a40;
+    padding: 20px;
     align-items: flex-start;
 }
 
 .content {
-    margin-left: 20px;
+    margin-left: 40px;
+    flex: 1;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
+
+/* BEGIN: Custom styles */
+.employee-dashboard {
+    background-color: #f2f2f2;
+    padding: 30px;
+}
+
+.sidebar {
+    background-color: #343a40;
+    padding: 30px;
+}
+
+.sidebar-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sidebar-button {
+    background-color: #343a40;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.sidebar-button.active {
+    background-color: #007bff;
+}
+
+.content {
+    margin-left: 50px;
+    background-color: #f8f8f8;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* END: Custom styles */

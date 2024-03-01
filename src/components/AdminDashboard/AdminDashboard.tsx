@@ -17,6 +17,8 @@ function AdminDashboard() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [selectedContent, setSelectedContent] = useState("dashboard");
+  const [isLoading, setIsLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     async function checkUser() {
@@ -39,9 +41,14 @@ function AdminDashboard() {
           }
           setUser(dt);
           setIsLoggedIn(true);
+        } else {
+          setErrorMessage("Failed to fetch user data");
         }
       } catch (error) {
+        setErrorMessage("Failed to fetch user data");
         console.log("Failed to fetch user data", error);
+      } finally {
+        setIsLoading(false);
       }
     }
     checkUser();
@@ -51,90 +58,92 @@ function AdminDashboard() {
     setSelectedContent(content);
   };
 
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!isLoggedIn || !isAdmin) {
+    return <AccessDenied />;
+  }
+
   return (
     <>
-      {!isLoggedIn && <AccessDenied />}
-      {!isAdmin && <AccessDenied />}
-      {isAdmin && (
-        <>
-          <div className="admin-dashboard-container">
-            <div className="sidebar">
-              <ul>
-                <li
-                  className={`sidebar-item ${selectedContent === "dashboard" ? "active" : ""}`}
-                  onClick={() => handleContentChange("dashboard")}
-                >
-                  Dashboard
-                </li>
-                <li
-                  className={`sidebar-item ${selectedContent === "employees" ? "active" : ""}`}
-                  onClick={() => handleContentChange("employees")}
-                >
-                  Employees
-                </li>
-                <li
-                  className={`sidebar-item ${selectedContent === "leaves" ? "active" : ""}`}
-                  onClick={() => handleContentChange("leaves")}
-                >
-                  Leaves
-                </li>
-                <li
-                  className={`sidebar-item ${selectedContent === "addEmployee" ? "active" : ""}`}
-                  onClick={() => handleContentChange("addEmployee")}
-                >
-                  Add Employee
-                </li>
-                <li
-                  className={`sidebar-item ${selectedContent === "users" ? "active" : ""}`}
-                  onClick={() => handleContentChange("users")}
-                >
-                  Users
-                </li>
-              </ul>
-            </div>
-            <div className="admin-content">
-              {selectedContent === "dashboard" && (
-                <>
-                  <h2 className="admin-title">Admin Dashboard</h2>
-                  <div className="admin-details">
-                    <h3>Admin Details</h3>
-                    <p>
-                      <strong>Name:</strong> {user.name}
-                    </p>
-                    <p>
-                      <strong>Email:</strong> {user.email}
-                    </p>
-                  </div>
-                </>
-              )}
-              {selectedContent === "employees" && (
-                <>
-                  <h2 className="admin-title">Employees</h2>
-                  {<ViewEmployees />}
-                </>
-              )}
-              {selectedContent === "leaves" && (
-                <>
-                  <h2 className="admin-title">Leaves</h2>
-                  {<LeaveApproval />}
-                </>
-              )}
-              {selectedContent === "addEmployee" && (
-                <>
-                  <h2 className="admin-title">Add Employee</h2>
-                  {<AddEmployee />}
-                </>
-              )}
-              {selectedContent === "users" && (
-                <>
-                  <h2 className="admin-title">Users</h2>
-                  {<ViewUsers />}
-                </>
-              )}
-            </div>
-          </div>
-        </>
-      )}
+      <div className="admin-dashboard-container">
+        <div className="sidebar">
+          <ul>
+            <li
+              className={`sidebar-item ${selectedContent === "dashboard" ? "active" : ""}`}
+              onClick={() => handleContentChange("dashboard")}
+            >
+              Dashboard
+            </li>
+            <li
+              className={`sidebar-item ${selectedContent === "employees" ? "active" : ""}`}
+              onClick={() => handleContentChange("employees")}
+            >
+              Employees
+            </li>
+            <li
+              className={`sidebar-item ${selectedContent === "leaves" ? "active" : ""}`}
+              onClick={() => handleContentChange("leaves")}
+            >
+              Leaves
+            </li>
+            <li
+              className={`sidebar-item ${selectedContent === "addEmployee" ? "active" : ""}`}
+              onClick={() => handleContentChange("addEmployee")}
+            >
+              Add Employee
+            </li>
+            <li
+              className={`sidebar-item ${selectedContent === "users" ? "active" : ""}`}
+              onClick={() => handleContentChange("users")}
+            >
+              Users
+            </li>
+          </ul>
+        </div>
+        <div className="admin-content">
+          {selectedContent === "dashboard" && (
+            <>
+              <h2 className="admin-title">Admin Dashboard</h2>
+              <div className="admin-details">
+                <h3>Admin Details</h3>
+                <p>
+                  <strong>Name:</strong> {user.name}
+                </p>
+                <p>
+                  <strong>Email:</strong> {user.email}
+                </p>
+              </div>
+            </>
+          )}
+          {selectedContent === "employees" && (
+            <>
+              <h2 className="admin-title">Employees</h2>
+              {<ViewEmployees />}
+            </>
+          )}
+          {selectedContent === "leaves" && (
+            <>
+              <h2 className="admin-title">Leaves</h2>
+              {<LeaveApproval />}
+            </>
+          )}
+          {selectedContent === "addEmployee" && (
+            <>
+              <h2 className="admin-title">Add Employee</h2>
+              {<AddEmployee />}
+            </>
+          )}
+          {selectedContent === "users" && (
+            <>
+              <h2 className="admin-title">Users</h2>
+              {<ViewUsers />}
+            </>
+          )}
+        </div>
+      </div>
     </>
   );
 }

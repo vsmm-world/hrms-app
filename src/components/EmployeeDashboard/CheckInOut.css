@@ -1,23 +1,40 @@
 .check-in-out {
-    display: flex;
+    /* display: flex; */
     justify-content: center;
     margin-top: 20px;
 }
 
-.check-in-button,
-.check-out-button {
+.check-in-out button {
     padding: 10px 20px;
     margin: 0 10px;
     border: 2px solid #333;
     border-radius: 5px;
-    background-color: #fff;
+    background-color: #0c8226;
+    color: #ffffff;
     cursor: pointer;
 }
 
-.check-in-button.checked,
-.check-out-button.checked {
-    background-color: #4caf50;
-    /* Change color for checked state */
-    color: #fff;
-    /* Change text color for checked state */
+.check-in-out button.checked {
+    background-color: #451a1a;
+}
+
+.check-in-out div {
+    /* Style for loader */
+}
+
+.check-in-out button.check-in-button {
+    /* Style for check-in button */
+}
+
+.check-in-out button.check-out-button {
+    /* Style for check-out button */
+}
+
+.check-in-out .checkin-message {
+    /* Style for check-in message */
+    background-color: #f2f2f2;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    color: #333333;
 }

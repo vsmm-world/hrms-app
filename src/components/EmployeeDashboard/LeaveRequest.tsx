@@ -14,9 +14,41 @@ function LeaveRequest() {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [reason, setReason] = useState("");
+  const [warningMessage, setWarningMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState("");
 
-  const handleLeaveSubmit = (e: any) => {
+  const handleLeaveSubmit = async (e: any) => {
     e.preventDefault();
+
+    const currentDate = new Date(Date.now());
+    const selectedStartDate = new Date(startDate);
+    const selectedEndDate = new Date(endDate);
+
+    if (selectedStartDate < currentDate) {
+      if (selectedStartDate.getDate() !== currentDate.getDate()) {
+        setWarningMessage("Start date cannot be in the past");
+        return;
+      }
+    }
+
+    if (selectedEndDate <= selectedStartDate) {
+      setWarningMessage("End date must be after start date");
+      return;
+    }
+
+    if (!leaveType) {
+      setWarningMessage("Please select a leave type");
+      return;
+    }
+
+    if (!startDate || !endDate || !reason) {
+      setWarningMessage("Please fill in all fields");
+      return;
+    }
+
+    setIsLoading(true);
+    setSubmitMessage("");
 
     const payload = {
       method: "POST",
@@ -33,35 +65,30 @@ function LeaveRequest() {
     };
 
     try {
-      fetch(`http://localhost:3000/leave?type=${leaveType}`, payload)
-        .then((response) => {
-          if (response.ok) {
-            console.log("Leave Request Submitted");
-          } else {
-            console.log("Leave Request Failed");
-          }
-        })
-        .catch((error) => {
-          console.log("Error submitting leave request", error);
-        });
+      const response = await fetch(`http://localhost:3000/leave?type=${leaveType}`, payload);
+      if (response.ok) {
+        setSubmitMessage("Leave Request Submitted");
+      } else {
+        setSubmitMessage("Leave Request Failed");
+      }
     } catch (error) {
       console.log("Error submitting leave request", error);
+      setSubmitMessage("Error submitting leave request");
     }
-    console.log("Leave Request Submitted:", {
-      leaveType,
-      startDate,
-      endDate,
-      reason,
-    });
+
+    setIsLoading(false);
     setLeaveType("");
     setStartDate("");
     setEndDate("");
     setReason("");
+    setWarningMessage("");
   };
 
   return (
     <div className="leave-request">
       <h2>Leave Request</h2>
+      {warningMessage && <div className="warning-message">{warningMessage}</div>}
+      {submitMessage && <div className="submit-message">{submitMessage}</div>}
       <form onSubmit={handleLeaveSubmit}>
         <div className="form-group">
           <label htmlFor="leaveType">Leave Type:</label>
@@ -104,7 +131,9 @@ function LeaveRequest() {
             onChange={(e) => setReason(e.target.value)}
           />
         </div>
-        <button type="submit">Submit</button>
+        <button type="submit" disabled={isLoading}>
+          {isLoading ? "Loading..." : "Submit"}
+        </button>
       </form>
     </div>
   );

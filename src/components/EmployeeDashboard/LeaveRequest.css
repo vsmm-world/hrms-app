@@ -3,25 +3,63 @@
     margin: 0 auto;
 }
 
-.form-group {
+.leave-request h2 {
+    margin-bottom: 10px;
+}
+
+.leave-request .warning-message {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    border-radius: 5px;
+    z-index: 9999;
+    position: relative;
+    animation: fadeOut 3s linear forwards;
+    /* Added forwards to keep the final state of the animation */
+
+    /* display: none; */
+}
+
+.leave-request .warning-message.show {
+    display: block;
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        display: none;
+    }
+}
+
+.leave-request form {
     margin-bottom: 20px;
 }
 
-label {
+.leave-request .form-group {
+    margin-bottom: 20px;
+}
+
+.leave-request label {
     display: block;
     margin-bottom: 5px;
 }
 
-input[type="text"],
-input[type="date"],
-textarea {
+.leave-request input[type="text"],
+.leave-request input[type="date"],
+.leave-request textarea {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
 
-button {
+.leave-request button {
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
@@ -30,6 +68,20 @@ button {
     cursor: pointer;
 }
 
-button:hover {
+.leave-request button:hover {
     background-color: #0056b3;
+}
+
+.submit-message {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+    border-radius: 5px;
+    z-index: 9999;
+    position: relative;
+    animation: fadeOut 3s forwards;
+    /* Added forwards to keep the final state of the animation */
+
 }

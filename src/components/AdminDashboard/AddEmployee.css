@@ -37,3 +37,34 @@
 .add-employee-button:hover {
     background-color: #0056b3;
 }
+
+/* Additional styles */
+
+.add-employee-container form {
+    margin-top: 20px;
+}
+
+.add-employee-container label {
+    font-weight: bold;
+}
+
+.add-employee-container select,
+.add-employee-container input[type="text"],
+.add-employee-container input[type="email"] {
+    font-size: 14px;
+}
+
+.add-employee-container input[type="text"],
+.add-employee-container input[type="email"] {
+    background-color: #f5f5f5;
+}
+
+.add-employee-container input[type="text"]:focus,
+.add-employee-container input[type="email"]:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+.add-employee-container button[type="submit"] {
+    margin-top: 20px;
+}

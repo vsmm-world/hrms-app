@@ -13,7 +13,12 @@ function ViewLeaves() {
         },
     ] as any);
     const [editableLeaveRequests, setEditableLeaveRequests] = useState([] as any);
+    const [message, setMessage] = useState("");
 
+    const commonHeaders = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${document.cookie.split("=")[1]}`,
+    };
     useEffect(() => {
         // Fetch leave requests
         const user = JSON.parse(sessionStorage.getItem("user") as string);
@@ -33,9 +38,11 @@ function ViewLeaves() {
                 );
                 if (response.ok) {
                     const data = await response.json();
-                    setLeaveRequests(data);
-                    setEditableLeaveRequests(data);
-                    console.log("Leave Requests", data);
+                    const array = data as any;
+                    const updatedArray = array.reverse();
+                    setLeaveRequests(updatedArray); // Reverse the array
+                    setEditableLeaveRequests(updatedArray); // Reverse the array
+                    console.log("Leave Requests", updatedArray);
                 }
             } catch (error) {
                 console.log("Failed to fetch leave requests", error);
@@ -46,7 +53,7 @@ function ViewLeaves() {
 
     const handleEdit = (index: number) => {
         const updatedLeaveRequests = [...editableLeaveRequests];
-        if (updatedLeaveRequests[index].status !== "approved") {
+        if (updatedLeaveRequests[index].status !== "Approved") {
             updatedLeaveRequests[index].isEditable = true;
             setEditableLeaveRequests(updatedLeaveRequests);
         }
@@ -54,39 +61,64 @@ function ViewLeaves() {
 
     const handleSave = (index: number) => {
         const updatedLeaveRequests = [...editableLeaveRequests];
-        updatedLeaveRequests[index].isEditable = false;
-        setEditableLeaveRequests(updatedLeaveRequests);
+        if (updatedLeaveRequests[index].status !== "Approved") {
+            updatedLeaveRequests[index].isEditable = false;
+            setEditableLeaveRequests(updatedLeaveRequests);
 
+            const payload = {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${document.cookie.split("=")[1]}`,
+                },
+                body: JSON.stringify({
+                    startDate: updatedLeaveRequests[index].startDate,
+                    endDate: updatedLeaveRequests[index].endDate,
+                    reason: updatedLeaveRequests[index].reason,
+                }),
+            };
+            async function updateLeave() {
+                try {
+                    const response = await fetch(
+                        `http://localhost:3000/leave/${updatedLeaveRequests[index].id}`,
+                        payload
+                    );
+                    if (response.ok) {
+                        setMessage("Leave request updated");
+                    }
+                } catch (error) {
+                    console.log("Failed to update leave request", error);
+                }
+            }
+            updateLeave();
+        }
+    };
+
+    const handleDelete = (index: number) => {
+        const updatedLeaveRequests = [...editableLeaveRequests];
         const payload = {
-            method: "PATCH",
+            method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${document.cookie.split("=")[1]}`,
             },
-            body: JSON.stringify({
-                startDate: updatedLeaveRequests[index].startDate,
-                endDate: updatedLeaveRequests[index].endDate,
-                reason: updatedLeaveRequests[index].reason,
-            }),
         };
-        async function updateLeave() {
+        async function deleteLeave() {
             try {
                 const response = await fetch(
                     `http://localhost:3000/leave/${updatedLeaveRequests[index].id}`,
                     payload
                 );
                 if (response.ok) {
-                    console.log("Leave request updated");
+                    setMessage("Leave request deleted");
                 }
             } catch (error) {
-                console.log("Failed to update leave request", error);
+                console.log("Failed to delete leave request", error);
             }
         }
-    };
+        deleteLeave();
 
-    const handleDelete = (index: number) => {
-        const updatedLeaveRequests = [...editableLeaveRequests];
-        if (updatedLeaveRequests[index].status !== "approved") {
+        if (updatedLeaveRequests[index].status !== "Approved") {
             updatedLeaveRequests.splice(index, 1);
             setEditableLeaveRequests(updatedLeaveRequests);
         }
@@ -119,6 +151,7 @@ function ViewLeaves() {
         <>
             <div className="leave-requests">
                 <h2>Leave Requests</h2>
+                {message && <p className="leave-message">{message}</p>}
                 <table className="leave-requests-table">
                     <thead>
                         <tr>
@@ -132,10 +165,17 @@ function ViewLeaves() {
                     </thead>
                     <tbody>
                         {editableLeaveRequests.map((leave: any, index: number) => {
+                            const isEditable = leave.isEditable;
+                            const isApproved = leave.status === "Approved";
+                            const isRejected = leave.status === "Rejected";
+                            const startDate = leave.startDate.split("T")[0];
+                            const endDate = leave.endDate.split("T")[0];
+                            const reason = leave.reason;
+
                             return (
-                                <tr key={leave.id}>
+                                <tr key={leave.id} className={`status-cell ${isApproved ? "status-approved" : ""} ${isRejected ? "status-rejected" : ""}`}>
                                     <td>
-                                        {leave.isEditable ? (
+                                        {isEditable ? (
                                             <input
                                                 type="date"
                                                 value={leave.startDate}
@@ -143,11 +183,11 @@ function ViewLeaves() {
                                                 className="start-date-input"
                                             />
                                         ) : (
-                                            leave.startDate.split("T")[0]
+                                            startDate
                                         )}
                                     </td>
                                     <td>
-                                        {leave.isEditable ? (
+                                        {isEditable ? (
                                             <input
                                                 type="date"
                                                 value={leave.endDate}
@@ -155,54 +195,58 @@ function ViewLeaves() {
                                                 className="end-date-input"
                                             />
                                         ) : (
-                                            leave.endDate.split("T")[0]
+                                            endDate
                                         )}
                                     </td>
                                     <td>
-                                        {leave.isEditable ? (
+                                        {isEditable ? (
                                             <input
                                                 type="text"
-                                                value={leave.reason}
+                                                value={reason}
                                                 onChange={(e) => {
-                                                    const updatedLeaveRequests = [
-                                                        ...editableLeaveRequests,
-                                                    ];
+                                                    const updatedLeaveRequests = [...editableLeaveRequests];
                                                     updatedLeaveRequests[index].reason = e.target.value;
                                                     setEditableLeaveRequests(updatedLeaveRequests);
                                                 }}
                                                 className="reason-input"
                                             />
                                         ) : (
-                                            leave.reason
+                                            reason
                                         )}
                                     </td>
-                                    <td>{leave.status}</td>
+                                    <td className={`status-cell ${isApproved ? "status-approved" : ""} ${isRejected ? "status-rejected" : ""}`}>
+                                        {leave.status}
+                                    </td>
                                     <td>{leave.leaveType}</td>
                                     <td>
-                                        {leave.status !== "approved" && leave.isEditable ? (
-                                            <button
-                                                onClick={() => handleSave(index)}
-                                                className="save-button"
-                                            >
-                                                Save
-                                            </button>
+                                        {isApproved ? (
+                                            <span className="status-approved">Approved</span>
+                                        ) : isRejected ? (
+                                            <span className="status-rejected">Rejected</span>
                                         ) : (
                                             <>
-                                                {leave.status !== "approved" && (
+                                                {isEditable ? (
                                                     <button
-                                                        onClick={() => handleEdit(index)}
-                                                        className="edit-button"
+                                                        onClick={() => handleSave(index)}
+                                                        className="save-button"
                                                     >
-                                                        Edit
+                                                        Save
                                                     </button>
-                                                )}
-                                                {leave.status !== "approved" && (
-                                                    <button
-                                                        onClick={() => handleDelete(index)}
-                                                        className="remove-button"
-                                                    >
-                                                        Remove
-                                                    </button>
+                                                ) : (
+                                                    <div>
+                                                        <button
+                                                            onClick={() => handleEdit(index)}
+                                                            className="edit-button"
+                                                        >
+                                                            Edit
+                                                        </button>
+                                                        <button
+                                                            onClick={() => handleDelete(index)}
+                                                            className="remove-button"
+                                                        >
+                                                            Remove
+                                                        </button>
+                                                    </div>
                                                 )}
                                             </>
                                         )}
@@ -211,6 +255,7 @@ function ViewLeaves() {
                             );
                         })}
                     </tbody>
+
                 </table>
             </div>
         </>

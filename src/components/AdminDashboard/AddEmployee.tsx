@@ -2,14 +2,7 @@ import { useEffect, useState } from "react";
 import "./AddEmployee.css";
 
 function AddEmployee() {
-  const [users, setUsers] = useState([
-    {
-      id: "",
-      name: "",
-      isEmployee: false,
-      email: "",
-    },
-  ]);
+  const [users, setUsers] = useState([{ id: "", name: "", email: "" }]);
   const [newEmployee, setNewEmployee] = useState({
     userId: "",
     firstName: "",
@@ -18,11 +11,14 @@ function AddEmployee() {
     department: "",
     jobTitle: "",
     contactInfo: "",
-  } as any);
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     async function fetchUsers() {
       try {
+        setIsLoading(true);
         const response = await fetch("http://localhost:3000/user", {
           method: "GET",
           headers: {
@@ -32,19 +28,27 @@ function AddEmployee() {
         });
         const data = await response.json();
         if (response.ok) {
-          const filteredUsers = data.filter((user: any) => !user.isEmployee && user.Role.name !== 'admin');
+          const filteredUsers = data.filter(
+            (user: any) => !user.isEmployee && user.Role.name !== "admin"
+          );
           setUsers(filteredUsers);
           console.log("Users", filteredUsers);
+        } else {
+          setMessage("Failed to fetch users");
         }
       } catch (error) {
         console.log("Failed to fetch users", error);
+        setMessage("Failed to fetch users");
+      } finally {
+        setIsLoading(false);
       }
     }
     fetchUsers();
-  }, [setNewEmployee]);
+  }, []);
 
   const addEmployee = async (x: any) => {
     try {
+      setIsLoading(true);
       const response = await fetch(
         "http://localhost:3000/administrator/create-employee",
         {
@@ -59,14 +63,19 @@ function AddEmployee() {
       const data = await response.json();
       console.log("Data", data);
       if (response.ok) {
-        console.log("Employee added", data);
+        setMessage("Employee added");
+      } else {
+        setMessage("Failed to add employee");
       }
     } catch (error) {
       console.log("Failed to add employee", error);
+      setMessage("Failed to add employee");
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const handelSubmit = (e: any) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
     const x = JSON.stringify(newEmployee);
     addEmployee(x);
@@ -86,32 +95,34 @@ function AddEmployee() {
     <>
       <div className="add-employee-container">
         <h1 className="add-employee-title">Add Employee</h1>
-        <form onSubmit={handelSubmit}>
-          <label htmlFor="userId" className="add-employee-label">User</label>
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="userId" className="add-employee-label">
+            User
+          </label>
           <select
             name="userId"
             id="userId"
             className="add-employee-select"
             onChange={(e) => {
-              const selectedUser = users.find(
-                (user: any) => user.id === e.target.value
-              );
+              const selectedUser = users.find((user) => user.id === e.target.value);
               setNewEmployee({
                 ...newEmployee,
                 userId: e.target.value,
-                firstName: selectedUser?.name.split(' ')[0] || "",
-                lastName: selectedUser?.name.split(' ')[1] || "",
+                firstName: selectedUser?.name.split(" ")[0] || "",
+                lastName: selectedUser?.name.split(" ")[1] || "",
                 email: selectedUser?.email || "",
               });
             }}
           >
-            {users.map((user: any) => (
+            {users.map((user) => (
               <option key={user.id} value={user.id}>
                 {user.name}
               </option>
             ))}
           </select>
-          <label htmlFor="firstName" className="add-employee-label">First Name</label>
+          <label htmlFor="firstName" className="add-employee-label">
+            First Name
+          </label>
           <input
             type="text"
             name="firstName"
@@ -122,7 +133,9 @@ function AddEmployee() {
               setNewEmployee({ ...newEmployee, firstName: e.target.value })
             }
           />
-          <label htmlFor="lastName" className="add-employee-label">Last Name</label>
+          <label htmlFor="lastName" className="add-employee-label">
+            Last Name
+          </label>
           <input
             type="text"
             name="lastName"
@@ -133,7 +146,9 @@ function AddEmployee() {
               setNewEmployee({ ...newEmployee, lastName: e.target.value })
             }
           />
-          <label htmlFor="email" className="add-employee-label">Email</label>
+          <label htmlFor="email" className="add-employee-label">
+            Email
+          </label>
           <input
             type="email"
             name="email"
@@ -144,7 +159,9 @@ function AddEmployee() {
               setNewEmployee({ ...newEmployee, email: e.target.value })
             }
           />
-          <label htmlFor="department" className="add-employee-label">Department</label>
+          <label htmlFor="department" className="add-employee-label">
+            Department
+          </label>
           <input
             type="text"
             name="department"
@@ -154,7 +171,9 @@ function AddEmployee() {
               setNewEmployee({ ...newEmployee, department: e.target.value })
             }
           />
-          <label htmlFor="jobTitle" className="add-employee-label">Job Title</label>
+          <label htmlFor="jobTitle" className="add-employee-label">
+            Job Title
+          </label>
           <input
             type="text"
             name="jobTitle"
@@ -164,7 +183,9 @@ function AddEmployee() {
               setNewEmployee({ ...newEmployee, jobTitle: e.target.value })
             }
           />
-          <label htmlFor="contactInfo" className="add-employee-label">Contact Info</label>
+          <label htmlFor="contactInfo" className="add-employee-label">
+            Contact Info
+          </label>
           <input
             type="text"
             name="contactInfo"
@@ -174,8 +195,12 @@ function AddEmployee() {
               setNewEmployee({ ...newEmployee, contactInfo: e.target.value })
             }
           />
-          <button type="submit" className="add-employee-button">Add Employee</button>
+          <button type="submit" className="add-employee-button">
+            Add Employee
+          </button>
         </form>
+        {isLoading && <div>Loading...</div>}
+        {message && <div>{message}</div>}
       </div>
     </>
   );

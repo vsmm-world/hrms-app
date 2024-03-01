@@ -3,52 +3,59 @@ import "./ViewUsers.css";
 
 function ViewUsers() {
     const [editableUsers, setEditableUsers] = useState([] as any);
+    const [isLoading, setIsLoading] = useState(true);
+    const [message, setMessage] = useState("");
+
     const commonpayload = {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${document.cookie.split("=")[1]}`,
         },
-    }
+    };
 
     useEffect(() => {
         // Fetch users
         async function fetchUsers() {
             try {
                 const response = await fetch(
-                    "http://localhost:3000/user", commonpayload
+                    "http://localhost:3000/user",
+                    commonpayload
                 );
                 if (response.ok) {
                     const data = await response.json();
                     setEditableUsers(data);
+                    setIsLoading(false);
                     console.log("Users", data);
+                } else {
+                    setMessage("Failed to fetch users");
                 }
             } catch (error) {
                 console.log("Failed to fetch users", error);
+                setMessage("Failed to fetch users");
             }
         }
         fetchUsers();
     }, [setEditableUsers]);
 
-    // const handleEmailChange = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
-    //     const updatedUsers = [...editableUsers];
-    //     updatedUsers[index].email = event.target.value;
-    //     setEditableUsers(updatedUsers);
-    // };
-    const handleEmailChange = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleEmailChange = (
+        index: number,
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
         setEditableUsers((prevUsers: any) => {
             const updatedUsers = [...prevUsers];
             updatedUsers[index].email = event.target.value;
             return updatedUsers;
         });
     };
+
     const handleEdit = (index: number) => {
         const updatedUsers = [...editableUsers];
         updatedUsers[index].isEditable = true;
         setEditableUsers(updatedUsers);
     };
 
-    const handleSave = (index: number) => {
+    const handleSave = async (index: number) => {
         const updatedUsers = [...editableUsers];
         updatedUsers[index].isEditable = false;
         const payload = {
@@ -63,24 +70,24 @@ function ViewUsers() {
             }),
         };
         try {
-            async function updateUser() {
-                const response = await fetch(
-                    `http://localhost:3000/user/${updatedUsers[index].id}`,
-                    payload
-                );
-                if (response.ok) {
-                    console.log("User updated");
-                }
+            const response = await fetch(
+                `http://localhost:3000/user/${updatedUsers[index].id}`,
+                payload
+            );
+            if (response.ok) {
+                console.log("User updated");
+                setMessage("User updated");
+            } else {
+                setMessage("Failed to update user");
             }
-            updateUser();
         } catch (error) {
             console.log("Failed to update user", error);
+            setMessage("Failed to update user");
         }
-        console.log("Save user at index:", index);
         setEditableUsers(updatedUsers);
     };
 
-    const handleRemove = (index: number) => {
+    const handleRemove = async (index: number) => {
         if (index < 0 || index >= editableUsers.length) {
             console.log("Invalid index");
             return;
@@ -94,25 +101,29 @@ function ViewUsers() {
                 Authorization: `Bearer ${document.cookie.split("=")[1]}`,
             },
         };
-        async function removeUser() {
-            try {
-                const response = await fetch(
-                    `http://localhost:3000/user/${updatedUsers[index].id}`,
-                    payload
-                );
-                if (response.ok) {
-                    console.log("User removed");
-                }
-            } catch (error) {
-                console.log("Failed to remove user", error);
+        try {
+            const response = await fetch(
+                `http://localhost:3000/user/${updatedUsers[index].id}`,
+                payload
+            );
+            if (response.ok) {
+                console.log("User removed");
+                setMessage("User removed");
+            } else {
+                setMessage("Failed to remove user");
             }
+        } catch (error) {
+            console.log("Failed to remove user", error);
+            setMessage("Failed to remove user");
         }
-        removeUser();
         updatedUsers.splice(index, 1);
         setEditableUsers(updatedUsers);
-        console.log("Remove user at index:", index);
     };
-    const handleNameChange = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
+
+    const handleNameChange = (
+        index: number,
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
         const updatedUsers = [...editableUsers];
         updatedUsers[index].name = event.target.value;
         setEditableUsers(updatedUsers);
@@ -120,70 +131,102 @@ function ViewUsers() {
 
     return (
         <>
-            <div className="users">
-                <h2>Users</h2>
-                <table className="users-table">
-                    <thead>
-                        <tr>
-                            <th className="table-header">Name</th>
-                            <th className="table-header">Email</th>
-                            <th className="table-header">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {editableUsers.map((user: any, index: number) => {
-                            if (user.Role.name === "admin") {
-                                return null;
-                            }
+            {isLoading ? (
+                <div>Loading...</div>
+            ) : (
+                <div className="users">
+                    <h2>Users</h2>
+                    {message && <div>{message}</div>}
+                    <table className="users-table">
+                        <thead>
+                            <tr>
+                                <th className="table-header">Name</th>
+                                <th className="table-header">Email</th>
+                                <th className="table-header">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {editableUsers.map((user: any, index: number) => {
+                                if (user.Role.name === "admin") {
+                                    return null;
+                                }
 
-                            return (
-                                <tr key={user.id}>
-                                    <td className="table-data">
-                                        {user.isEditable ? (
-                                            <input
-                                                type="text"
-                                                value={user.name}
-                                                onChange={(event) => handleNameChange(index, event)}
-                                                className="input-field"
-                                            />
-                                        ) : (
-                                            user.name
-                                        )}
-                                    </td>
-                                    <td className="table-data">
-                                        {user.isEditable ? (
-                                            <input
-                                                type="text"
-                                                value={user.email}
-                                                onChange={(event) => handleEmailChange(index, event)}
-                                                className="input-field"
-                                            />
-                                        ) : (
-                                            user.email
-                                        )}
-                                    </td>
-                                    <td className="table-data">
-                                        {user.isEditable ? (
-                                            <button onClick={() => handleSave(index)} className="save-button">
-                                                Save
-                                            </button>
-                                        ) : (
-                                            <>
-                                                <button onClick={() => handleEdit(index)} className="edit-button">
-                                                    Edit
+                                return (
+                                    <tr key={user.id}>
+                                        <td className="table-data">
+                                            {user.isEditable ? (
+                                                <input
+                                                    type="text"
+                                                    value={user.name}
+                                                    onChange={(event) =>
+                                                        handleNameChange(
+                                                            index,
+                                                            event
+                                                        )
+                                                    }
+                                                    className="input-field"
+                                                />
+                                            ) : (
+                                                user.name
+                                            )}
+                                        </td>
+                                        <td className="table-data">
+                                            {user.isEditable ? (
+                                                <input
+                                                    type="text"
+                                                    value={user.email}
+                                                    onChange={(event) =>
+                                                        handleEmailChange(
+                                                            index,
+                                                            event
+                                                        )
+                                                    }
+                                                    className="input-field"
+                                                />
+                                            ) : (
+                                                user.email
+                                            )}
+                                        </td>
+                                        <td className="table-data">
+                                            {user.isEditable ? (
+                                                <button
+                                                    onClick={() =>
+                                                        handleSave(index)
+                                                    }
+                                                    className="save-button"
+                                                >
+                                                    Save
                                                 </button>
-                                                <button onClick={() => handleRemove(index)} className="remove-button">
-                                                    Remove
-                                                </button>
-                                            </>
-                                        )}
-                                    </td>
-                                </tr>
-                            );
-                        })}
-                    </tbody>
-                </table>
-            </div>
+                                            ) : (
+                                                <>
+                                                    <button
+                                                        onClick={() =>
+                                                            handleEdit(index)
+                                                        }
+                                                        className="edit-button"
+                                                    >
+                                                        Edit
+                                                    </button>
+                                                    <button
+                                                        onClick={() =>
+                                                            handleRemove(
+                                                                index
+                                                            )
+                                                        }
+                                                        className="remove-button"
+                                                    >
+                                                        Remove
+                                                    </button>
+                                                </>
+                                            )}
+                                        </td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
+                </div>
+            )}
         </>
     );
 }

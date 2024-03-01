@@ -23,8 +23,12 @@ function Navbar() {
       },
     };
     try {
-      await fetch("http://localhost:3000/auth/logout", paylod);
+      const response = await fetch("http://localhost:3000/auth/logout", paylod);
       document.cookie = "token=; expires=Thu, 01 Jan 2024 00:00:00 GMT; path=/";
+      sessionStorage.removeItem("user");
+      if (response.ok) {
+        window.location.href = "/login";
+      }
     } catch (error) {
       console.log("Failed to logout", error);
     }
