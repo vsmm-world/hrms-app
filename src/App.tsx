@@ -63,7 +63,7 @@ function App() {
       ),
     },
     {
-      path: "/user-dashboard",
+      path: "/user/dashboard",
       element: (
         <>
           <Navbar />
@@ -73,7 +73,7 @@ function App() {
       ),
     },
     {
-      path: "/admin-dashboard",
+      path: "/admin/dashboard",
       element: (
         <>
           <Navbar />
@@ -83,7 +83,7 @@ function App() {
       ),
     },
     {
-      path: "/employee-dashboard",
+      path: "/employee/dashboard",
       element: (
         <>
           <Navbar />

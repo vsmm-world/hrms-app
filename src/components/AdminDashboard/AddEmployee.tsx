@@ -44,7 +44,7 @@ function AddEmployee() {
       }
     }
     fetchUsers();
-  }, []);
+  }, [newEmployee]);
 
   const addEmployee = async (x: any) => {
     try {

@@ -9,6 +9,9 @@ function Navbar() {
     email: "",
     isDeleted: false,
     roleId: "",
+    Role: {
+      name: ""
+    }
   } as any);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -63,9 +66,8 @@ function Navbar() {
     <>
       <nav className="navcontainer">
         <div>
-          <NavLink to="/">Home</NavLink>
-          <NavLink to="/about">About</NavLink>
-          <NavLink to="/contact">Contact</NavLink>
+          {/* <NavLink to="/">HRMS Portal</NavLink> */}
+          <p className="nav-title">HRMS Portal</p>
         </div>
         <div className="right">
           {!isLoggedIn ? (
@@ -75,7 +77,13 @@ function Navbar() {
             </div>
           ) : (
             <div>
-              <NavLink to="/user-dashboard">{user.name}</NavLink>
+              {user.Role.name === "admin" && (
+                <NavLink to="/admin/dashboard">Admin Dashboard</NavLink>
+              )}
+              {user.isEmployee && (
+                <NavLink to="/employee/dashboard">Employee Dashboard</NavLink>
+              )}
+              <NavLink to="/user/dashboard">{user.name}</NavLink>
               <button onClick={handleLogout}>Logout</button>
             </div>
           )}

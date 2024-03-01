@@ -147,7 +147,7 @@ function ViewUsers() {
                         </thead>
                         <tbody>
                             {editableUsers.map((user: any, index: number) => {
-                                if (user.Role.name === "admin") {
+                                if (user.Role.name === "admin" || user.isEmployee) {
                                     return null;
                                 }
 

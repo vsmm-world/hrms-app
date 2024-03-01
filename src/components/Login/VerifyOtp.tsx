@@ -23,7 +23,7 @@ function VerifyOtp(props: any) {
         console.log("OTP verified successfully", data);
         setError("");
         document.cookie = `token=${data.token}`;
-        window.location.href = "/user-dashboard";
+        window.location.href = "/user/dashboard";
       } else {
         console.log("Failed to verify OTP", response.statusText);
         setError("Invalid OTP! Please try again.");

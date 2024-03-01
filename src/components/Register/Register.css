@@ -1,6 +1,7 @@
 /* UserRegistrationForm.css */
 
 .user-registration-container {
+  height: 95vh;
     max-width: 400px;
     margin: 0 auto;
   }
