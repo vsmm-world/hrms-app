@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import "./CheckInOut.css"; // Import component CSS
 
 function CheckInOut() {
+
   const isCheckedInRef = useRef(false);
   const [isCheckedOut, setIsCheckedOut] = useState(false);
   const [isLoading, setIsLoading] = useState(true); // Add loading state
