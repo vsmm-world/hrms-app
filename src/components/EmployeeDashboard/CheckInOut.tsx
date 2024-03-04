@@ -1,10 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import "./CheckInOut.css"; // Import component CSS
 
 function CheckInOut() {
-
   const isCheckedInRef = useRef(false);
-  const [isCheckedOut, setIsCheckedOut] = useState(false);
   const [isLoading, setIsLoading] = useState(true); // Add loading state
   const [message, setMessage] = useState(""); // Add message state
 
@@ -50,7 +48,6 @@ function CheckInOut() {
 
       if (response.ok) {
         isCheckedInRef.current = true;
-        setIsCheckedOut(false);
         setMessage("Checked in successfully");
         setTimeout(() => {
           setMessage(""); // Clear the message after 3 seconds
@@ -80,7 +77,6 @@ function CheckInOut() {
 
       if (response.ok) {
         isCheckedInRef.current = false;
-        setIsCheckedOut(true);
         setMessage("Checked out successfully");
         setTimeout(() => {
           setMessage(""); // Clear the message after 3 seconds
@@ -102,7 +98,6 @@ function CheckInOut() {
       {/* Loader */}
       {isLoading && <div>Loading...</div>}
 
-
       {/* Check-in button */}
       {!isLoading && !isCheckedInRef.current && (
         <button className="check-in-button" onClick={handleCheckIn}>
@@ -116,6 +111,7 @@ function CheckInOut() {
           Check Out
         </button>
       )}
+
       {/* Message */}
       {message && <div className="checkin-message">{message}</div>}
     </div>

@@ -140,6 +140,7 @@ function AdminDashboard() {
           )}
         </div>
       </div>
+      {errorMessage && <div className="error-message">{errorMessage}</div>}
     </>
   );
 }

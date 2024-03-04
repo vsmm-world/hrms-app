@@ -36,7 +36,6 @@ const LeaveApproval: React.FC = () => {
     async function approveLeaveRequest() {
       try {
         const response = await fetch("http://localhost:3000/leave/approve", payload);
-        const data = await response.json();
         if (response.ok) {
           setLeaveRequests((prevRequests) =>
             prevRequests.map((request) =>

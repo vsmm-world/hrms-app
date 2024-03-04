@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import "./ViewEmployees.css";
 
 function ViewEmployees() {
-  const [employees, setEmployees] = useState([] as any);
   const [editableEmployees, setEditableEmployees] = useState([] as any);
   const [isLoading, setIsLoading] = useState(true);
   const [message, setMessage] = useState("");
@@ -23,7 +22,6 @@ function ViewEmployees() {
         );
         if (response.ok) {
           const data = await response.json();
-          setEmployees(data);
           setEditableEmployees(data);
           setIsLoading(false);
           console.log("Employees", data);
