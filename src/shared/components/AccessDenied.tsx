@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import "./AccessDenied.css";
 
 function AccessDenied() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -43,7 +44,14 @@ function AccessDenied() {
   }, []);
 
 
-  return <div>AccessDenied</div>;
+  return (
+    <div className="access-denied">
+      <h1 className="access-denied__title">Access Denied</h1>
+      <p className="access-denied__message">Sorry, you do not have permission to access this page.</p>
+      <p className="access-denied__message">Please contact your administrator for further assistance.</p>
+      <p className="access-denied__message">If you believe this is a mistake, you can <a href="/login" className="access-denied__link">login</a> to gain access.</p>
+    </div>
+  );
 }
 
 export default AccessDenied;

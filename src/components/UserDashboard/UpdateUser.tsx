@@ -5,18 +5,16 @@ function UpdateUser(props: any) {
   const [newName, setNewName] = useState("");
   const [newEmail, setNewEmail] = useState("");
   const [user, setUser] = useState({} as any);
-  const [Udata, setUData] = useState({} as any);
+  const [isLoading, setIsLoading] = useState(false);
+  const [updateMessage, setUpdateMessage] = useState("");
 
   useEffect(() => {
     setUser(props.user);
-    setUData({
-      name: props.user.name,
-      email: props.user.email,
-    });
   }, []);
 
   const updateUser = async (x: any) => {
     try {
+      setIsLoading(true);
       console.log(props.user);
       const response = await fetch(`http://localhost:3000/user/${user.id}`, {
         method: "PATCH",
@@ -29,12 +27,20 @@ function UpdateUser(props: any) {
       const data = await response.json();
       console.log("Data", data);
       if (response.ok) {
+        setUpdateMessage("User updated successfully");
         console.log("User updated", data);
+      } else {
+        setUpdateMessage("Failed to update user");
+        console.log("Failed to update user", data);
       }
     } catch (error) {
+      setUpdateMessage("Failed to update user");
       console.log("Failed to update user", error);
+    } finally {
+      setIsLoading(false);
     }
   };
+
   const handleSubmit = (e: any) => {
     e.preventDefault();
     if (newName.trim() !== "") {
@@ -42,6 +48,7 @@ function UpdateUser(props: any) {
       updateUser(x);
       return;
     } else {
+      setUpdateMessage("Name field is empty");
       console.log("Name field is empty");
     }
     if (newEmail.trim() !== "") {
@@ -49,6 +56,7 @@ function UpdateUser(props: any) {
       updateUser(x);
       return;
     } else {
+      setUpdateMessage("Email field is empty");
       console.log("Email field is empty");
     }
   };
@@ -82,6 +90,8 @@ function UpdateUser(props: any) {
         />
         <button type="submit" className="update-form__button">Update</button>
       </form>
+      {isLoading && <div className="loader">Loading...</div>}
+      {updateMessage && <div className="update-message">{updateMessage}</div>}
     </div>
   );
 }

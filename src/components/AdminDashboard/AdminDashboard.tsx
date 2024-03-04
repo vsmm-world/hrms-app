@@ -120,25 +120,21 @@ function AdminDashboard() {
           )}
           {selectedContent === "employees" && (
             <>
-              <h2 className="admin-title">Employees</h2>
               {<ViewEmployees />}
             </>
           )}
           {selectedContent === "leaves" && (
             <>
-              <h2 className="admin-title">Leaves</h2>
               {<LeaveApproval />}
             </>
           )}
           {selectedContent === "addEmployee" && (
             <>
-              <h2 className="admin-title">Add Employee</h2>
               {<AddEmployee />}
             </>
           )}
           {selectedContent === "users" && (
             <>
-              <h2 className="admin-title">Users</h2>
               {<ViewUsers />}
             </>
           )}

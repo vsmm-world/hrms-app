@@ -65,3 +65,16 @@
 .update-form button:hover {
   background-color: #0056b3;
 }
+/* BEGIN: Updated text color */
+.user-dashboard {
+  color: #333;
+}
+
+.user-details h3 {
+  color: #555;
+}
+
+.user-details p {
+  color: #777;
+}
+/* END: Updated text color */
