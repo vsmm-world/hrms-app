@@ -24,15 +24,24 @@ function ViewUsers() {
                 );
                 if (response.ok) {
                     const data = await response.json();
-                    setEditableUsers(data);
-                    setIsLoading(false);
-                    console.log("Users", data);
+                    console.log(data);
+                    const filteredUsers = data.filter(
+                        (user: any) => !user.isEmployee && user.Role.name !== "admin"
+                    );
+                    setEditableUsers(filteredUsers);
+                    if (filteredUsers.length === 0) {
+                        setMessage("No users found");
+                    }
+
                 } else {
                     setMessage("Failed to fetch users");
                 }
             } catch (error) {
                 console.log("Failed to fetch users", error);
                 setMessage("Failed to fetch users");
+            }
+            finally {
+                setIsLoading(false);
             }
         }
         fetchUsers();
@@ -136,7 +145,7 @@ function ViewUsers() {
             ) : (
                 <div className="users">
                     <h2>Users</h2>
-                    {message && <div>{message}</div>}
+                    {message && <div className="view-user-message">{message}</div>}
                     <table className="users-table">
                         <thead>
                             <tr>

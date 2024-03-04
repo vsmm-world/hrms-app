@@ -32,6 +32,9 @@ function AddEmployee() {
             (user: any) => !user.isEmployee && user.Role.name !== "admin"
           );
           setUsers(filteredUsers);
+          if (filteredUsers.length === 0) {
+            setMessage("No users found");
+          }
           console.log("Users", filteredUsers);
         } else {
           setMessage("Failed to fetch users");
@@ -95,6 +98,13 @@ function AddEmployee() {
     <>
       <div className="add-employee-container">
         <h1 className="add-employee-title">Add Employee</h1>
+        {isLoading ? (
+          <div>Loading...</div>
+        ) : (
+          <>
+            {message && <div className="message">{message}</div>}
+          </>
+        )}
         <form onSubmit={handleSubmit}>
           <label htmlFor="userId" className="add-employee-label">
             User
@@ -199,8 +209,7 @@ function AddEmployee() {
             Add Employee
           </button>
         </form>
-        {isLoading && <div>Loading...</div>}
-        {message && <div>{message}</div>}
+       
       </div>
     </>
   );

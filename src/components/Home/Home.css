@@ -1,0 +1,56 @@
+.home-container {
+    color: #333;
+    height: 85vh;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    /* display: flex; */
+    justify-content: center;
+}
+
+.home-title {
+    font-size: 28px; /* Updated font size */
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.home-description {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.home-features {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.home-feature-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.home-feature {
+    font-size: 14px;
+    margin-bottom: 5px;
+    text-align: center; /* Added text-align property */
+}
+
+.home-signup,
+.home-login {
+    font-size: 14px;
+    margin-top: 20px;
+}
+
+.home-signup a,
+.home-login a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.home-signup a:hover,
+.home-login a:hover {
+    text-decoration: underline;
+}

@@ -111,6 +111,7 @@ function LeaveRequest() {
             type="date"
             id="startDate"
             value={startDate}
+            min={new Date().toISOString().split("T")[0]}
             onChange={(e) => setStartDate(e.target.value)}
           />
         </div>

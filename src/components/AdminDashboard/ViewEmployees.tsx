@@ -36,7 +36,7 @@ function ViewEmployees() {
       }
     }
     fetchEmployees();
-  }, []);
+  }, [setEditableEmployees]);
 
   const handleEmailChange = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
     const updatedEmployees = [...editableEmployees];
@@ -87,7 +87,8 @@ function ViewEmployees() {
 
   const handleRemove = async (index: number) => {
     const updatedEmployees = [...editableEmployees];
-    updatedEmployees.splice(index, 1);
+    const employeeId = updatedEmployees[index].id; // Get the employee ID before removing
+    updatedEmployees.splice(index, 1); // Remove the employee from the array
     setEditableEmployees(updatedEmployees);
     const payload = {
       method: "DELETE",
@@ -98,7 +99,7 @@ function ViewEmployees() {
     };
     try {
       const response = await fetch(
-        `https://api.ravindravaland.co/administrator/${updatedEmployees[index].id}`,
+        `https://api.ravindravaland.co/administrator/${employeeId}`, // Use the stored employee ID
         payload
       );
       if (response.ok) {

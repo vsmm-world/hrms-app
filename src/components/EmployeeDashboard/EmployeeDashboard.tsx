@@ -7,7 +7,7 @@ import './EmployeeDashboard.css'
 import AccessDenied from "../../shared/components/AccessDenied";
 
 function EmployeeDashboard() {
-  const [selectedComponent, setSelectedComponent] = useState("");
+  const [selectedComponent, setSelectedComponent] = useState("Dashboard");
   const [isEmployee, setIsEmployee] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState({} as any);
