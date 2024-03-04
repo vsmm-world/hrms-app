@@ -19,7 +19,7 @@ function AddEmployee() {
     async function fetchUsers() {
       try {
         setIsLoading(true);
-        const response = await fetch("http://localhost:3000/user", {
+        const response = await fetch("https://api.ravindravaland.co/user", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -50,7 +50,7 @@ function AddEmployee() {
     try {
       setIsLoading(true);
       const response = await fetch(
-        "http://localhost:3000/administrator/create-employee",
+        "https://api.ravindravaland.co/administrator/create-employee",
         {
           method: "POST",
           headers: {

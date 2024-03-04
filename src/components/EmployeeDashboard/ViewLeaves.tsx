@@ -21,7 +21,7 @@ function ViewLeaves() {
         async function fetchLeaves() {
             try {
                 const response = await fetch(
-                    `http://localhost:3000/leave/${user.id}`,
+                    `https://api.ravindravaland.co/leave/${user.id}`,
                     payload
                 );
                 if (response.ok) {
@@ -64,7 +64,7 @@ function ViewLeaves() {
             async function updateLeave() {
                 try {
                     const response = await fetch(
-                        `http://localhost:3000/leave/${updatedLeaveRequests[index].id}`,
+                        `https://api.ravindravaland.co/leave/${updatedLeaveRequests[index].id}`,
                         payload
                     );
                     if (response.ok) {
@@ -87,7 +87,7 @@ function ViewLeaves() {
         async function deleteLeave() {
             try {
                 const response = await fetch(
-                    `http://localhost:3000/leave/${updatedLeaveRequests[index].id}`,
+                    `https://api.ravindravaland.co/leave/${updatedLeaveRequests[index].id}`,
                     payload
                 );
                 if (response.ok) {

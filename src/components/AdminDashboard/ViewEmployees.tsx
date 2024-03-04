@@ -11,7 +11,7 @@ function ViewEmployees() {
     async function fetchEmployees() {
       try {
         const response = await fetch(
-          "http://localhost:3000/administrator/eployees",
+          "https://api.ravindravaland.co/administrator/eployees",
           {
             method: "GET",
             headers: {
@@ -68,7 +68,7 @@ function ViewEmployees() {
     };
     try {
       const response = await fetch(
-        `http://localhost:3000/administrator/${updatedEmployees[index].id}`,
+        `https://api.ravindravaland.co/administrator/${updatedEmployees[index].id}`,
         payload
       );
       if (response.ok) {
@@ -98,7 +98,7 @@ function ViewEmployees() {
     };
     try {
       const response = await fetch(
-        `http://localhost:3000/administrator/${updatedEmployees[index].id}`,
+        `https://api.ravindravaland.co/administrator/${updatedEmployees[index].id}`,
         payload
       );
       if (response.ok) {

@@ -14,7 +14,7 @@ function UserDashboard() {
 
   const fetchUser = async () => {
     try {
-      const response = await fetch("http://localhost:3000/auth/whoami", {
+      const response = await fetch("https://api.ravindravaland.co/auth/whoami", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

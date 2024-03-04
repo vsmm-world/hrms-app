@@ -10,7 +10,7 @@ const LeaveApproval: React.FC = () => {
   useEffect(() => {
     async function fetchLeaveRequests() {
       try {
-        const response = await fetch("http://localhost:3000/leave", {
+        const response = await fetch("https://api.ravindravaland.co/leave", {
           method: "GET",
           headers: commonHeaders
         });
@@ -35,7 +35,7 @@ const LeaveApproval: React.FC = () => {
     };
     async function approveLeaveRequest() {
       try {
-        const response = await fetch("http://localhost:3000/leave/approve", payload);
+        const response = await fetch("https://api.ravindravaland.co/leave/approve", payload);
         if (response.ok) {
           setLeaveRequests((prevRequests) =>
             prevRequests.map((request) =>
@@ -60,7 +60,7 @@ const LeaveApproval: React.FC = () => {
     };
     async function rejectLeaveRequest() {
       try {
-        const response = await fetch("http://localhost:3000/leave/reject", payload);
+        const response = await fetch("https://api.ravindravaland.co/leave/reject", payload);
         if (response.ok) {
           setLeaveRequests((prevRequests) =>
             prevRequests.map((request) =>

@@ -12,7 +12,7 @@ function VerifyOtp(props: any) {
       otpRef: otpRef,
     };
     try {
-      const response = await fetch("http://localhost:3000/auth/validate-otp", {
+      const response = await fetch("https://api.ravindravaland.co/auth/validate-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(userData),
@@ -41,18 +41,19 @@ function VerifyOtp(props: any) {
   return (
     <>
       <div className="verify-otp-container">
-        <h2>Verify OTP</h2>
+        <h2 className="verify-otp-title">Verify OTP</h2>
         <form className="verify-otp-form" onSubmit={handleSubmit}>
-          <label htmlFor="otp">Enter OTP:</label>
+          <label htmlFor="otp" className="verify-otp-label">Enter OTP:</label>
           <input
             type="text"
             id="otp"
             value={otp}
             onChange={handleChange}
+            className="verify-otp-input"
             required
           />
-          <button type="submit">Verify</button>
-          <div>{error}</div>
+          <button type="submit" className="verify-otp-button">Verify</button>
+          <div className="verify-otp-error">{error}</div>
         </form>
       </div>
     </>

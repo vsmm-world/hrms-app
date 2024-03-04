@@ -27,7 +27,7 @@ function Login() {
       password: password,
     };
     try {
-      const response = await fetch("http://localhost:3000/auth/login", {
+      const response = await fetch("https://api.ravindravaland.co/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(userData),
@@ -54,31 +54,36 @@ function Login() {
     <>
       {!verify && (
         <div className="login-container">
-          <h1>Login</h1>
+          <h1 className="login-title">Login</h1>
           <form className="login-form" onSubmit={handleSubmit}>
-            <div>
-              <label htmlFor="email">Email:</label>
+            <div className="form-group">
+              <label htmlFor="email" className="form-label">Email:</label>
               <input
                 type="email"
                 id="email"
                 value={email}
                 onChange={handleEmailChange}
+                className="form-input"
                 required
               />
             </div>
-            <div>
-              <label htmlFor="password">Password:</label>
+            <div className="form-group">
+              <label htmlFor="password" className="form-label">Password:</label>
               <input
                 type="password"
                 id="password"
                 value={password}
                 onChange={handlePasswordChange}
+                className="form-input"
                 required
               />
             </div>
-            <button type="submit">Login</button>
-            <div>{error}</div>
+            <button type="submit" className="login-button">Login</button>
+            <div className="error-message">{error}</div>
           </form>
+          <div>
+            Don't have an account? <a href="/register" className="register-link">Register</a>
+          </div>
         </div>
       )}
       {verify && <VerifyOTP otpref={otpRef} />}
