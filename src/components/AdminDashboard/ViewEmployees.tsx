@@ -11,7 +11,7 @@ function ViewEmployees() {
     async function fetchEmployees() {
       try {
         const response = await fetch(
-          "https://api.ravindravaland.co/administrator/eployees",
+          "http://localhost:3000/administrator/eployees",
           {
             method: "GET",
             headers: {
@@ -68,7 +68,7 @@ function ViewEmployees() {
     };
     try {
       const response = await fetch(
-        `https://api.ravindravaland.co/administrator/${updatedEmployees[index].id}`,
+        `http://localhost:3000/administrator/${updatedEmployees[index].id}`,
         payload
       );
       if (response.ok) {
@@ -99,7 +99,7 @@ function ViewEmployees() {
     };
     try {
       const response = await fetch(
-        `https://api.ravindravaland.co/administrator/${employeeId}`, // Use the stored employee ID
+        `http://localhost:3000/administrator/${employeeId}`, // Use the stored employee ID
         payload
       );
       if (response.ok) {

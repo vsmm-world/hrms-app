@@ -19,7 +19,7 @@ function ViewUsers() {
         async function fetchUsers() {
             try {
                 const response = await fetch(
-                    "https://api.ravindravaland.co/user",
+                    "http://localhost:3000/user",
                     commonpayload
                 );
                 if (response.ok) {
@@ -80,7 +80,7 @@ function ViewUsers() {
         };
         try {
             const response = await fetch(
-                `https://api.ravindravaland.co/user/${updatedUsers[index].id}`,
+                `http://localhost:3000/user/${updatedUsers[index].id}`,
                 payload
             );
             if (response.ok) {
@@ -112,7 +112,7 @@ function ViewUsers() {
         };
         try {
             const response = await fetch(
-                `https://api.ravindravaland.co/user/${updatedUsers[index].id}`,
+                `http://localhost:3000/user/${updatedUsers[index].id}`,
                 payload
             );
             if (response.ok) {

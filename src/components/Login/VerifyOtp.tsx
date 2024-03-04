@@ -12,7 +12,7 @@ function VerifyOtp(props: any) {
       otpRef: otpRef,
     };
     try {
-      const response = await fetch("https://api.ravindravaland.co/auth/validate-otp", {
+      const response = await fetch("http://localhost:3000/auth/validate-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(userData),

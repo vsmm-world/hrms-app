@@ -65,7 +65,7 @@ function LeaveRequest() {
     };
 
     try {
-      const response = await fetch(`https://api.ravindravaland.co/leave?type=${leaveType}`, payload);
+      const response = await fetch(`http://localhost:3000/leave?type=${leaveType}`, payload);
       if (response.ok) {
         setSubmitMessage("Leave Request Submitted");
       } else {
