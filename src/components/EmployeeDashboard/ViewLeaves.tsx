@@ -2,16 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./ViewLeaves.css";
 
 function ViewLeaves() {
-    const [leaveRequests, setLeaveRequests] = useState([
-        {
-            id: "",
-            startDate: "",
-            endDate: "",
-            reason: "",
-            status: "",
-            leaveType: "",
-        },
-    ] as any);
+
     const [editableLeaveRequests, setEditableLeaveRequests] = useState([] as any);
     const [message, setMessage] = useState("");
 
@@ -25,10 +16,7 @@ function ViewLeaves() {
         console.log("User", user);
         const payload = {
             method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${document.cookie.split("=")[1]}`,
-            },
+            headers: commonHeaders,
         };
         async function fetchLeaves() {
             try {
@@ -40,7 +28,6 @@ function ViewLeaves() {
                     const data = await response.json();
                     const array = data as any;
                     const updatedArray = array.reverse();
-                    setLeaveRequests(updatedArray); // Reverse the array
                     setEditableLeaveRequests(updatedArray); // Reverse the array
                     console.log("Leave Requests", updatedArray);
                 }
@@ -67,10 +54,7 @@ function ViewLeaves() {
 
             const payload = {
                 method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${document.cookie.split("=")[1]}`,
-                },
+                headers: commonHeaders,
                 body: JSON.stringify({
                     startDate: updatedLeaveRequests[index].startDate,
                     endDate: updatedLeaveRequests[index].endDate,
@@ -98,10 +82,7 @@ function ViewLeaves() {
         const updatedLeaveRequests = [...editableLeaveRequests];
         const payload = {
             method: "DELETE",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${document.cookie.split("=")[1]}`,
-            },
+            headers: commonHeaders,
         };
         async function deleteLeave() {
             try {
