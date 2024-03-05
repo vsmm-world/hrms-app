@@ -39,7 +39,7 @@ function Register() {
     };
 
     try {
-      const response = await fetch("https://api.ravindravaland.co/user", {
+      const response = await fetch("http://localhost:3000/user", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

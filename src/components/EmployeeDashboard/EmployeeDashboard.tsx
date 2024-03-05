@@ -5,6 +5,7 @@ import LeaveRequest from "./LeaveRequest";
 import ViewLeaves from "./ViewLeaves";
 import './EmployeeDashboard.css'
 import AccessDenied from "../../shared/components/AccessDenied";
+import CommentOnLeave from "./CommentOnLeave";
 
 function EmployeeDashboard() {
   const [selectedComponent, setSelectedComponent] = useState("Dashboard");
@@ -15,7 +16,7 @@ function EmployeeDashboard() {
   useEffect(() => {
     async function checkUser() {
       try {
-        const response = await fetch("https://api.ravindravaland.co/auth/whoami", {
+        const response = await fetch("http://localhost:3000/auth/whoami", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -93,6 +94,13 @@ function EmployeeDashboard() {
                   >
                     View Leaves
                   </button>
+                  <button
+                    className={`sidebar-button ${selectedComponent === "Testing" ? "active" : ""
+                      }`}
+                    onClick={() => handleComponentClick("Testing")}
+                  >
+                   Comment On Leaves
+                  </button>
                 </div>
               </div>
 
@@ -109,6 +117,7 @@ function EmployeeDashboard() {
                 {selectedComponent === "CheckInOut" && <CheckInOut />}
                 {selectedComponent === "LeaveRequest" && <LeaveRequest />}
                 {selectedComponent === "ViewLeaves" && <ViewLeaves />}
+                {selectedComponent === "Testing" && <CommentOnLeave />}
               </div>
             </div>
           )}

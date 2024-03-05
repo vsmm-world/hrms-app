@@ -9,7 +9,7 @@ function CheckInOut() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("https://api.ravindravaland.co/attendance/chekIt/isCheckedIn", {
+        const response = await fetch("http://localhost:3000/attendance/chekIt/isCheckedIn", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -38,7 +38,7 @@ function CheckInOut() {
     try {
       setIsLoading(true); // Set loading state to true before making the request
 
-      const response = await fetch("https://api.ravindravaland.co/attendance/chekIn", {
+      const response = await fetch("http://localhost:3000/attendance/chekIn", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -67,7 +67,7 @@ function CheckInOut() {
     try {
       setIsLoading(true); // Set loading state to true before making the request
 
-      const response = await fetch("https://api.ravindravaland.co/attendance/chekOut", {
+      const response = await fetch("http://localhost:3000/attendance/chekOut", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -27,7 +27,7 @@ function AttendanceRecord() {
       };
       try {
         const response = await fetch(
-          `https://api.ravindravaland.co/attendance`,
+          `http://localhost:3000/attendance`,
           payload
         );
         if (response.ok) {

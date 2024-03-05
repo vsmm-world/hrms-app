@@ -16,7 +16,7 @@ function UpdateUser(props: any) {
     try {
       setIsLoading(true);
       console.log(props.user);
-      const response = await fetch(`https://api.ravindravaland.co/user/${user.id}`, {
+      const response = await fetch(`http://localhost:3000/user/${user.id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
