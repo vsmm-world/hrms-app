@@ -16,8 +16,8 @@ function AccessDenied() {
         });
 
         if (response.ok) {
-          return true; // User is logged in
           setLoading(false); // Set loading status to false when data fetch is complete
+          return true; // User is logged in
         } else {
           // User is not logged in
           setLoading(false); // Set loading status to false when data fetch is complete

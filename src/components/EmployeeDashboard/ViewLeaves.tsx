@@ -24,6 +24,7 @@ function ViewLeaves() {
         };
         async function fetchLeaves() {
             try {
+                setIsLoading(true); // Set isLoading to true before fetching data
                 const response = await fetch(
                     `https://api.ravindravaland.co/leave/${user.id}`,
                     payload
@@ -42,7 +43,7 @@ function ViewLeaves() {
             }
         }
         fetchLeaves();
-    }, []);
+    }, [trigger]);
 
     const handleEdit = (index: number) => {
         const updatedLeaveRequests = [...editableLeaveRequests];
@@ -69,6 +70,7 @@ function ViewLeaves() {
             };
             async function updateLeave() {
                 try {
+                    setIsLoading(true); // Set isLoading to true before updating leave
                     const response = await fetch(
                         `https://api.ravindravaland.co/leave/${updatedLeaveRequests[index].id}`,
                         payload
@@ -78,6 +80,8 @@ function ViewLeaves() {
                     }
                 } catch (error) {
                     console.log("Failed to update leave request", error);
+                } finally {
+                    setIsLoading(false); // Set isLoading to false after updating leave
                 }
             }
             updateLeave();
@@ -92,6 +96,7 @@ function ViewLeaves() {
         };
         async function deleteLeave() {
             try {
+                setIsLoading(true); // Set isLoading to true before deleting leave
                 const response = await fetch(
                     `https://api.ravindravaland.co/leave/${updatedLeaveRequests[index].id}`,
                     payload
@@ -101,6 +106,8 @@ function ViewLeaves() {
                 }
             } catch (error) {
                 console.log("Failed to delete leave request", error);
+            } finally {
+                setIsLoading(false); // Set isLoading to false after deleting leave
             }
         }
         deleteLeave();
@@ -156,6 +163,7 @@ function ViewLeaves() {
             body: JSON.stringify(comment),
         };
         try {
+            setIsLoading(true); // Set isLoading to true before adding comment
             const response = await fetch(
                 `http://localhost:3000/leave/replyOnComment`,
                 payload
@@ -170,6 +178,8 @@ function ViewLeaves() {
             }
         } catch (error) {
             console.log("Failed to add comment", error);
+        } finally {
+            setIsLoading(false); // Set isLoading to false after adding comment
         }
 
         setReply('');
@@ -177,12 +187,12 @@ function ViewLeaves() {
 
     return (
         <>
-            {isLoading ? ( // Show loader while fetching data
-                <div>Loading...</div>
-            ) : (
-                <div className="leave-requests">
-                    <h2>Leave Requests</h2>
-                    {message && <p className="leave-message">{message}</p>}
+            <div className="leave-requests">
+                <h2>Leave Requests</h2>
+                {message && <p className="leave-message">{message}</p>}
+                {isLoading ? ( // Show loader while fetching data
+                    <p>Loading...</p>
+                ) : (
                     <table className="leave-requests-table">
                         <thead>
                             <tr>
@@ -195,12 +205,16 @@ function ViewLeaves() {
                             </tr>
                         </thead>
                         <tbody>
-                            {editableLeaveRequests.length === 0 && (
-                                <tr>
-                                    <td colSpan={6}>No leave requests found</td>
-                                </tr>
-                            )}
+                            {
+                                editableLeaveRequests.length == 0 && (<>
+                                    <tr>
+                                        No Record Found
+                                    </tr>
+
+                                </>)
+                            }
                             {editableLeaveRequests.map((leave: any, index: number) => {
+
                                 const isEditable = leave.isEditable;
                                 const isApproved = leave.status === "Approved";
                                 const isRejected = leave.status === "Rejected";
@@ -209,109 +223,143 @@ function ViewLeaves() {
                                 const reason = leave.reason;
 
                                 return (
-                                    <tr
-                                        key={leave.id}
-                                        className={`status-cell ${isApproved ? "status-approved" : ""
-                                            } ${isRejected ? "status-rejected" : ""}`}
-                                    >
-                                        <td>
-                                            {isEditable ? (
-                                                <input
-                                                    type="date"
-                                                    value={leave.startDate}
-                                                    onChange={(e) => handleStartDateChange(e, index)}
-                                                    className="start-date-input"
-                                                />
-                                            ) : (
-                                                startDate
-                                            )}
-                                        </td>
-                                        <td>
-                                            {isEditable ? (
-                                                <input
-                                                    type="date"
-                                                    value={leave.endDate}
-                                                    onChange={(e) => handleEndDateChange(e, index)}
-                                                    className="end-date-input"
-                                                />
-                                            ) : (
-                                                endDate
-                                            )}
-                                        </td>
-                                        <td>
-                                            {isEditable ? (
-                                                <input
-                                                    type="text"
-                                                    value={reason}
-                                                    onChange={(e) => {
-                                                        const updatedLeaveRequests = [
-                                                            ...editableLeaveRequests,
-                                                        ];
-                                                        updatedLeaveRequests[index].reason = e.target.value;
-                                                        setEditableLeaveRequests(updatedLeaveRequests);
-                                                    }}
-                                                    className="reason-input"
-                                                />
-                                            ) : (
-                                                reason
-                                            )}
-                                        </td>
-                                        <td
+                                    <>
+                                        <tr
+                                            key={leave.id}
                                             className={`status-cell ${isApproved ? "status-approved" : ""
                                                 } ${isRejected ? "status-rejected" : ""}`}
                                         >
-                                            {leave.status}
-                                        </td>
-                                        <td>{leave.leaveType}</td>
-                                        <td>
-                                            {isApproved ? (
-                                                <span className="status-approved">Approved</span>
-                                            ) : isRejected ? (
-                                                <span className="status-rejected">Rejected</span>
-                                            ) : (
-                                                <>
-                                                    {isEditable ? (
-                                                        <button
-                                                            onClick={() => handleSave(index)}
-                                                            className="save-button"
-                                                        >
-                                                            Save
-                                                        </button>
-                                                    ) : (
-                                                        <div>
+                                            <td>
+                                                {isEditable ? (
+                                                    <input
+                                                        type="date"
+                                                        value={leave.startDate}
+                                                        onChange={(e) => handleStartDateChange(e, index)}
+                                                        className="start-date-input"
+                                                    />
+                                                ) : (
+                                                    startDate
+                                                )}
+                                            </td>
+                                            <td>
+                                                {isEditable ? (
+                                                    <input
+                                                        type="date"
+                                                        value={leave.endDate}
+                                                        onChange={(e) => handleEndDateChange(e, index)}
+                                                        className="end-date-input"
+                                                    />
+                                                ) : (
+                                                    endDate
+                                                )}
+                                            </td>
+                                            <td>
+                                                {isEditable ? (
+                                                    <input
+                                                        type="text"
+                                                        value={reason}
+                                                        onChange={(e) => {
+                                                            const updatedLeaveRequests = [
+                                                                ...editableLeaveRequests,
+                                                            ];
+                                                            updatedLeaveRequests[index].reason = e.target.value;
+                                                            setEditableLeaveRequests(updatedLeaveRequests);
+                                                        }}
+                                                        className="reason-input"
+                                                    />
+                                                ) : (
+                                                    reason
+                                                )}
+                                            </td>
+                                            <td
+                                                className={`status-cell ${isApproved ? "status-approved" : ""
+                                                    } ${isRejected ? "status-rejected" : ""}`}
+                                            >
+                                                {leave.status}
+                                            </td>
+                                            <td>{leave.leaveType}</td>
+                                            <td>
+                                                {isApproved ? (
+                                                    <span className="status-approved">Approved</span>
+                                                ) : isRejected ? (
+                                                    <span className="status-rejected">Rejected</span>
+                                                ) : (
+                                                    <>
+                                                        {isEditable ? (
                                                             <button
-                                                                onClick={() => handleEdit(index)}
-                                                                className="edit-button"
+                                                                onClick={() => handleSave(index)}
+                                                                className="save-button"
                                                             >
-                                                                Edit
+                                                                Save
                                                             </button>
-                                                            <button
-                                                                onClick={() => handleDelete(index)}
-                                                                className="remove-button"
-                                                            >
-                                                                Remove
-                                                            </button>
-                                                            <button
-                                                                onClick={() => handleExtend(index, leave.id)}
-                                                                className="extend-button"
-                                                            >
-                                                                Extend
-                                                            </button>
-                                                        </div>
-                                                    )}
-                                                </>
-                                            )}
+                                                        ) : (
+                                                            <div>
+                                                                <button
+                                                                    onClick={() => handleDelete(index)}
+                                                                    className="remove-button"
+                                                                >
+                                                                    Remove
+                                                                </button>
+                                                                <button
+                                                                    onClick={() => handleEdit(index)}
+                                                                    className="edit-button"
+                                                                >
+                                                                    Edit
+                                                                </button>
 
-                                        </td>
+                                                                <button
+                                                                    onClick={() => handleExtend(index, leave.id)}
+                                                                    className="extend-button"
+                                                                >
+                                                                    Extend
+                                                                </button>
+                                                            </div>
+                                                        )}
+                                                    </>
+                                                )}
 
-                                    </tr>
+                                            </td>
+                                          
+
+
+                                            </tr>
+
+<tr>
+    
+{(showComments && visibleComments == leave.id) && (
+                                                    <div className="comments-section">
+                                                        <h3>Comments</h3>
+                                                        {leave.comments.map((comment: any) => (<>
+                                                            <div key={comment.id} className="comment">
+                                                                <p></p>
+                                                                <p>{comment.employeeName} Commented: {comment.comment}</p>
+                                                                {!(comment.reply == '') && (<p>You Replied : {comment.reply}</p>)}
+                                                            </div>
+
+                                                            {!comment.reply && (<div className="reply-section">
+                                                                <input
+                                                                    type="text"
+                                                                    value={reply}
+                                                                    onChange={(e) => setReply(e.target.value)}
+                                                                    placeholder="Reply..."
+                                                                />
+                                                                <button onClick={() => handleComment(comment.id, leave.id)}>Reply</button>
+                                                                <button onClick={() => setVisibleComments('')}>Close</button>
+                                                            </div>)}
+                                                        </>
+                                                        ))}
+                                                    </div>
+                                                )}
+</tr>
+                                       
+                                    </>
                                 );
                             })}
                         </tbody>
                     </table>
+                )}
 
-                </div>
-            )}
+            </div>
         </>
     );
 }

@@ -14,6 +14,7 @@ function AddEmployee() {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [trigger, setTrigger] = useState(false);
 
   useEffect(() => {
     async function fetchUsers() {
@@ -47,7 +48,7 @@ function AddEmployee() {
       }
     }
     fetchUsers();
-  }, [newEmployee]);
+  }, [trigger]);
 
   const addEmployee = async (x: any) => {
     try {
@@ -81,7 +82,9 @@ function AddEmployee() {
   const handleSubmit = (e: any) => {
     e.preventDefault();
     const x = JSON.stringify(newEmployee);
+
     addEmployee(x);
+    setTrigger(!trigger);
     //clear the form
     setNewEmployee({
       userId: "",

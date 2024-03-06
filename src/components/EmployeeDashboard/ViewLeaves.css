@@ -24,10 +24,6 @@
     font-weight: bold;
 }
 
-/* .leave-requests tr:nth-child(even) {
-    background-color: #f2f2f2;
-} */
-
 .leave-requests input[type="date"],
 .leave-requests input[type="text"],
 .leave-requests button {

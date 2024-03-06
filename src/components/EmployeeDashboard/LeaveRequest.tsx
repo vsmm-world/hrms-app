@@ -11,8 +11,8 @@ const LeaveTypes = {
 
 function LeaveRequest() {
   const [leaveType, setLeaveType] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [startDate, setStartDate] = useState("" as any);
+  const [endDate, setEndDate] = useState("" as any);
   const [reason, setReason] = useState("");
   const [warningMessage, setWarningMessage] = useState("");
   const [isLoading, setIsLoading] = useState(true);
@@ -181,6 +181,7 @@ function LeaveRequest() {
             type="date"
             id="endDate"
             value={endDate}
+            min={new Date().toISOString().split("T")[0]}
             onChange={(e) => setEndDate(e.target.value)}
           />
         </div>
@@ -192,30 +193,32 @@ function LeaveRequest() {
             onChange={(e) => setReason(e.target.value)}
           />
         </div>
-        <label htmlFor="employee">Mention:</label>
-        {employees.map((employee: any) => (<>
+        <div className="mention-radio">
+          <label htmlFor="employee" className="mention-radio">Mention:</label>
+          {employees.map((employee: any) => (< div key={employee.id} >
 
-          {employee.id === currentUser.id ? null : (
+            {employee.id === currentUser.id ? null : (
 
-            <div key={employee.id}>
-              <input
-                type="checkbox"
-                id={employee.email}
-                name="employee"
-                value={employee.email}
-                onChange={(e) => {
-                  const isChecked = e.target.checked;
-                  if (isChecked) {
-                    selectedEmployee.push(employee.email);
-                    setSelectedEmployee(selectedEmployee);
-                  }
-                }}
-              />
-              <label htmlFor={employee.email}>{employee.name}</label>
-            </div>
-          )}
-        </>
-        ))}
+              <div key={employee.id} >
+                <input
+                  type="checkbox"
+                  id={employee.email}
+                  name="employee"
+                  value={employee.email}
+                  onChange={(e) => {
+                    const isChecked = e.target.checked;
+                    if (isChecked) {
+                      selectedEmployee.push(employee.email);
+                      setSelectedEmployee(selectedEmployee);
+                    }
+                  }}
+                />
+                <label htmlFor={employee.email}>{employee.name}</label>
+              </div>
+            )}
+          </div>
+          ))}
+        </div>
 
         <button type="submit" disabled={isLoading}>
           {isLoading ? "Loading..." : "Submit"}

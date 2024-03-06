@@ -120,7 +120,7 @@ const CommentOnLeave: React.FC = () => {
                                                 e.preventDefault();
                                                 let comment = (e.target as HTMLFormElement).comment.value; // Use type casting
                                                 handleComment(leave.id, comment);
-                                                comment = '';
+                                                (e.target as HTMLFormElement).comment.value = '';
                                             }}
                                         >
                                             <input type="text" name="comment" placeholder="Enter your comment" />

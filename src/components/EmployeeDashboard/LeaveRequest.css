@@ -17,9 +17,6 @@
     z-index: 9999;
     position: relative;
     animation: fadeOut 3s linear forwards;
-    /* Added forwards to keep the final state of the animation */
-
-    /* display: none; */
 }
 
 .leave-request .warning-message.show {
@@ -82,6 +79,11 @@
     z-index: 9999;
     position: relative;
     animation: fadeOut 3s forwards;
-    /* Added forwards to keep the final state of the animation */
 
+}
+
+.mention-radio {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
 }
